@@ -24,8 +24,8 @@ export default React.memo<{
   latexstring: string;
 }>(({ x, y, dx = 0, dy = 0, rotate = 0, latexstring = "" }) => (
   <foreignObject
-    width="60"
-    height="50"
+    width="75"
+    height="75"
     transform={`translate(${x}, ${y}) rotate(${rotate}) translate(${dx},${dy})`}
   >
     <span style={style}>

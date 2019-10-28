@@ -114,17 +114,6 @@ export default () => {
 };
 
 const useStyles = makeStyles({
-  "@global": {
-    body: {
-      margin: "0 !important",
-      padding: "0 !important",
-      fontFamily: " 'Puritan', sans-serif",
-      color: colors.grey["800"]
-    },
-    ".katex": {
-      fontSize: "1em"
-    }
-  },
   qkContainer: {
     height: "250px"
   },

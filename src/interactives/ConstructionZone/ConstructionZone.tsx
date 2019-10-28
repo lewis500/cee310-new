@@ -135,7 +135,7 @@ const useStyles = makeStyles({
     justifyContent: "center",
     flexDirection: "column",
     alignItems: "center",
-    marginTop: "-25px"
+    marginTop: "-15px"
   },
   paper: {
     maxWidth: "500px",

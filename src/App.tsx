@@ -31,14 +31,15 @@ const map: { [key: string]: string } = {
   list = Object.entries(map).slice(1);
 
 const Home = () => (
-  <div style={{ maxWidth: "700px", margin: "0 auto" }}>
+  <div style={{ maxWidth: "700px", margin: "0 auto", lineHeight: "1.5em" }}>
     <div>
       Welcome to the homepage for the course{" "}
       <em>CEE 310: Transportation Engineering</em> at University of Illinois at
       Urbana-Champaign. This site links to interactive visualizations that help
-      students understand key concepts from the course. This semester (Fall
-      2020) is the first time we're incorporating the visualizations, so it's a
-      rough draft.
+      students understand key concepts from the course. Each visualization has a
+      short video that you can toggle to explain what's going on. This semester
+      (Fall 2020) is the first time we're incorporating the visualizations, so
+      it's a rough draft.
     </div>
     <div>
       <ul>
@@ -98,6 +99,8 @@ const About = (() => {
             Environmental Engineering at UIUC. He earned a PhD and MS in CEE at
             UC Berkeley and an MA in Transport Economics at University of Leeds.
             His research focuses on the economics of downtown traffic.
+            <br />
+            <a href="https://lewislehe.com">Home page</a>
           </div>
         </div>
         <hr />
@@ -112,6 +115,8 @@ const About = (() => {
             concerns developing computational tools for fast and reliable
             analysis of smart and resilient infrastructure systems with a focus
             on power and transportation systems.
+            <br />
+            <a href="https://nalemazkoor.wixsite.com/negin">Home page</a>
           </div>
         </div>
       </div>
@@ -168,6 +173,9 @@ const useStyles = makeStyles({
       fontFamily: " 'Puritan', sans-serif",
       color: colors.grey["800"],
       fontSize: "18px"
+    },
+    ".katex": {
+      fontSize: "1em"
     }
   },
   title: {
@@ -193,9 +201,9 @@ const useStyles = makeStyles({
     }
   },
   main: {
-    lineHeight: "1.5em",
+    // lineHeight: "1.5em",
     margin: "0 auto",
-    marginTop: "50px",
+    marginTop: "30px",
     display: "flex",
     justifyContent: "center",
     flexDirection: "column"
