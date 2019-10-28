@@ -48,6 +48,15 @@ module.exports = {
         use: ["style-loader", "css-loader"]
       },
       {
+        test: /\.(jpg|png)$/,
+        use: {
+          loader: "url-loader",
+          options: {
+            limit: 2000
+          }
+        }
+      },
+      {
         test: /\.woff(2)?$/,
         use: [
           {
