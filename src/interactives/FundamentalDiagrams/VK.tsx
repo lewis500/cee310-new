@@ -20,7 +20,7 @@ const M = {
     top: 25,
     bottom: 30,
     left: 20,
-    right: 90
+    right: 50
   },
   gTranslate = `translate(${M.left},${M.top})`;
 
@@ -122,9 +122,10 @@ const VK: FC<{ width: number; height: number }> = ({ width, height }) => {
           />
           <TexLabel x={kScale(params.kj) - 4} y={0} latexstring="k_j" />
           <TexLabel
-            x={width + 10}
-            y={-10}
-            latexstring="k \; \text{(veh/km)}"
+            x={width }
+            y={-15}
+            rotate={0}
+            latexstring="\text{(veh/km)}"
           />
         </g>
       </g>

@@ -2,12 +2,12 @@ import React, {
   FunctionComponent,
   useContext,
   useReducer,
-  useCallback,
-  FormEvent
+  useCallback
 } from "react";
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import Box from "@material-ui/core/Box";
+// import Paper from "@material-ui/core/Paper";
+import * as colors from "@material-ui/core/colors";
+import makeStyles from "@material-ui/styles/makeStyles";
 import { useTimer } from "src/hooks/useTimerHook";
 import * as params from "./constants";
 import {
@@ -20,12 +20,9 @@ import {
 } from "./ducks";
 import VK from "./VK";
 import QK from "./QK";
-import useStyles from "./styleApp";
-import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import FormLabel from "@material-ui/core/FormLabel";
 
 const Buttons = React.memo(
   ({
@@ -83,8 +80,15 @@ const App: FunctionComponent<{}> = () => {
 
   return (
     <div className={classes.main}>
-      <Paper className={classes.paper} elevation={2}>
-        {/* <Sliders /> */}
+      <div style={{ display: "flex" }}>
+        <div>
+          <VK height={HEIGHT} width={WIDTH} />
+        </div>
+        <div>
+          <QK height={HEIGHT} width={WIDTH} />
+        </div>
+      </div>
+      <div className={classes.controls}>
         <Button
           className={classes.button}
           variant="contained"
@@ -94,9 +98,7 @@ const App: FunctionComponent<{}> = () => {
           {play ? "PAUSE" : "PLAY"}
         </Button>
         <Buttons changeVK={changeVK} vk={state.vk} />
-      </Paper>
-      <VK height={HEIGHT} width={WIDTH} />
-      <QK />
+      </div>
     </div>
   );
 };
@@ -110,3 +112,42 @@ export default () => {
     </AppContext.Provider>
   );
 };
+
+const useStyles = makeStyles({
+  main: {
+    // maxWidth: "900px",
+    color: colors.grey["800"],
+    margin: "0 auto",
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column"
+  },
+  red: {
+    fill: colors.red["A400"]
+  },
+  controls: {
+    // maxWidth: "500px",
+    margin: "auto",
+    display: "flex",
+    // padding: "20px",
+    marginTop: "10px",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around"
+  },
+  button: {
+    margin: "5px",
+    marginRight: "45px"
+  },
+  // button: {
+  //   alignSelf: "center"
+  // },
+  visContainer: {
+    margin: "0 auto"
+  },
+  sliderContainer: {
+    width: "300px",
+    padding: "20px",
+    boxSizing: "border-box"
+  }
+});

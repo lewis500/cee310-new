@@ -1,5 +1,6 @@
 import React, { Dispatch } from "react";
 import * as params from "./constants";
+import { createSelector } from "reselect";
 const { kj, vf, w, k0, numLanes, total } = params,
   min = Math.min,
   max = Math.max;
@@ -55,7 +56,7 @@ export enum ActionTypes {
   SET_PLAY = "SET_PLAY"
 }
 
-type Action = (
+type Action =
   | {
       type: ActionTypes.TICK;
       payload: number;
@@ -67,7 +68,7 @@ type Action = (
   | {
       type: ActionTypes.SET_PLAY;
       payload: boolean;
-    }); 
+    };
 
 export const reducer: React.Reducer<State, Action> = (state, action) => {
   switch (action.type) {
@@ -100,6 +101,21 @@ export const reducer: React.Reducer<State, Action> = (state, action) => {
       return state;
   }
 };
+
+export const getQ0 = createSelector<State, VKType, number>(
+  [state => state.vk],
+  vk => {
+    switch (vk) {
+      case VKType.GREENSHIELDS:
+        return (vkMap.GREENSHIELDS(params.kj / 2) * params.kj) / 2;
+      case VKType.TRIANGLE:
+        return params.q0;
+      default:
+        return vkMap.DRAKE(params.k0) * params.k0;
+    }
+  }
+);
+
 export const AppContext = React.createContext<{
   state: State;
   dispatch?: Dispatch<Action>;

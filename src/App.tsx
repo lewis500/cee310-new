@@ -13,7 +13,6 @@ import DilemmaZone from "src/interactives/DilemmaZone";
 import Horizontal from "src/interactives/Horizontal";
 import FundamentalDiagrams from "src/interactives/FundamentalDiagrams";
 import TrafficVariables from "./interactives/TrafficVariables";
-import Divider from "@material-ui/core/Divider";
 
 // @ts-ignore
 import Negin from "./img/negin-cropped.jpg";
