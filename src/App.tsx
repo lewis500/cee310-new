@@ -1,22 +1,28 @@
 import React from "react";
 import * as colors from "@material-ui/core/colors";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useLocation
+} from "react-router-dom";
 import ConstructionZone from "src/interactives/ConstructionZone";
 import DilemmaZone from "src/interactives/DilemmaZone";
 import Horizontal from "src/interactives/Horizontal";
-import FundamentalDiagrams from 'src/interactives/FundamentalDiagrams';
+import FundamentalDiagrams from "src/interactives/FundamentalDiagrams";
 import TrafficVariables from "./interactives/TrafficVariables";
 
-const list = [
-  ["Dilemma Zones", "dilemma-zone"],
-  ["Construction Zone", "construction-zone"],
-  ["Three Fundamental Diagrams", "fundamental-diagrams"],
-  ["Horizontal Curves", "horizontal"],
-  ["Flow and Density", "flow-and-density"],
-  // ["Triangular Fundamental Diagram", "triangular"],
-  // ["Traffic Lights", "traffic-states"]
-];
+const map: { [key: string]: string } = {
+    "/": "CEE 310: Transportation Engineering",
+    "dilemma-zone": "Dilemma Zones",
+    "construction-zone": "Construction Zone",
+    "fundamental-diagrams": "Three Fundamental Diagrams",
+    horizontal: "Horizontal Curves",
+    "flow-and-density": "Flow and Density"
+  },
+  list = Object.entries(map).slice(1);
 
 const Home = () => (
   <div style={{ maxWidth: "700px", margin: "0 auto" }}>
@@ -31,8 +37,8 @@ const Home = () => (
     <div>
       <ul>
         {list.map(d => (
-          <Link to={d[1]} key={d[1]}>
-            <li>{d[0]}</li>
+          <Link to={d[0]} key={d[0]}>
+            <li>{d[1]}</li>
           </Link>
         ))}
       </ul>
@@ -40,20 +46,35 @@ const Home = () => (
   </div>
 );
 
-const About = () => (
-  <div>
-    <div>About page</div>
-    <div>going to fill this in later</div>
-  </div>
-);
+const About = (() => {
+  const useStyles = makeStyles({
+    about: {
+      maxWidth: "700px",
+      margin: "0 auto"
+    }
+  });
+  return () => {
+    const classes = useStyles({});
+    return (
+      <div className={classes.about}>
+        <div>going to fill this in later</div>
+      </div>
+    );
+  };
+})();
 const titleLink = { paddingRight: "15px" };
+const getTitle = () => {
+  const location = useLocation().pathname.slice(1);
+  if (map.hasOwnProperty(location)) return map[location];
+  return map["/"];
+};
 
-export default () => {
+const App = () => {
   const classes = useStyles({});
   return (
-    <Router>
+    <>
       <div className={classes.title}>
-          <Link to="/">CEE 310: Transportation Engineering</Link>
+        <div>{getTitle()}</div>
         <div style={{ flex: "1 1 auto" }}></div>
         <div style={titleLink}>
           <Link to="/">home</Link>
@@ -73,9 +94,15 @@ export default () => {
           <Route path="/" component={Home} />
         </Switch>
       </div>
-    </Router>
+    </>
   );
 };
+
+export default () => (
+  <Router>
+    <App />
+  </Router>
+);
 
 const useStyles = makeStyles({
   "@global": {
@@ -110,7 +137,6 @@ const useStyles = makeStyles({
     }
   },
   main: {
-    color: colors.grey["800"],
     lineHeight: "1.5em",
     margin: "0 auto",
     marginTop: "50px",
