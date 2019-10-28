@@ -1,6 +1,5 @@
 import React, { useContext, useRef } from "react";
 import * as ducks from "./ducks";
-import { State } from "./ducks";
 import useElementSize from "src/hooks/useElementSizeHook";
 import makeStyles from "@material-ui/styles/makeStyles";
 import * as colors from "@material-ui/core/colors";

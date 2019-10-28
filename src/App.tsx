@@ -13,6 +13,12 @@ import DilemmaZone from "src/interactives/DilemmaZone";
 import Horizontal from "src/interactives/Horizontal";
 import FundamentalDiagrams from "src/interactives/FundamentalDiagrams";
 import TrafficVariables from "./interactives/TrafficVariables";
+import Divider from "@material-ui/core/Divider";
+
+// @ts-ignore
+import Negin from "./img/negin-cropped.jpg";
+// @ts-ignore
+import Lewis from "./img/lewis.jpg";
 
 const map: { [key: string]: string } = {
     "/": "CEE 310: Transportation Engineering",
@@ -50,14 +56,64 @@ const About = (() => {
   const useStyles = makeStyles({
     about: {
       maxWidth: "700px",
-      margin: "0 auto"
+      fontSize: "16px",
+      lineHeight: "1.5em",
+      display: "flex",
+      flexDirection: "column",
+      margin: "0 auto",
+      alignItems: "center",
+      "& hr": {
+        borderTop: "1px solid " + colors.grey["400"],
+        width: "100%",
+        margin: "10px 0px",
+        background: "none"
+      }
+    },
+    imgContainer: {
+      alignSelf: "center",
+      display: "flex",
+      justifyContent: "center",
+      "& img": {
+        width: "200px",
+        boxShadow: `1px 1px 2px ${colors.grey[400]}`,
+        marginRight: "20px"
+      }
+    },
+    person: {
+      display: "flex"
+      // marginBottom: "10px"
     }
   });
   return () => {
     const classes = useStyles({});
     return (
       <div className={classes.about}>
-        <div>going to fill this in later</div>
+        <div className={classes.person}>
+          <div className={classes.imgContainer}>
+            <img src={Lewis} />
+          </div>
+          <div>
+            Since Fall 2018, Lewis Lehe has been assistant professor in the
+            transportation systems group of the Department of Civil and
+            Environmental Engineering at UIUC. He earned a PhD and MS in CEE at
+            UC Berkeley and an MA in Transport Economics at University of Leeds.
+            His research focuses on the economics of downtown traffic.
+          </div>
+        </div>
+        <hr />
+        <div className={classes.person}>
+          <div className={classes.imgContainer}>
+            <img src={Negin} />
+          </div>
+          <div>
+            In Summer 2019, Negin Alemazkoor earned her PhD in Civil Engineering
+            from UIUC. She is currently a Postdoctoral Research Associate in the
+            Purdue School of Industrial Engineering. Her research mainly
+            concerns developing computational tools for fast and reliable
+            analysis of smart and resilient infrastructure systems with a focus
+            on power and transportation systems.
+          </div>
+        </div>
       </div>
     );
   };

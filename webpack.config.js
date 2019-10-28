@@ -22,7 +22,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.(tsx|ts)$/,
         include: resolve(__dirname, "src"),
         exclude: /node_modules/,
         loader: "babel-loader"
@@ -32,6 +32,15 @@ module.exports = {
         include: resolve(__dirname, "src"),
         exclude: /node_modules/,
         loader: "babel-loader"
+      },
+      {
+        test: /\.(jpg|png)$/,
+        use: {
+          loader: "url-loader",
+          options: {
+            limit: 25000
+          }
+        }
       },
       {
         test: /\.css$/,
@@ -90,6 +99,6 @@ module.exports = {
     alias: {
       src: resolve(__dirname, "src")
     },
-    extensions: [".ts", ".js", ".css", ".tsx"]
+    extensions: [".ts", ".js", ".css", ".tsx", ".jpeg", ".png", ".jpg"]
   }
 };
