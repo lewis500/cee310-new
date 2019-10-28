@@ -12,7 +12,7 @@ export const initialState = {
   v: 20,
   v0: 20,
   time: 0,
-  R: 90,
+  R: 80,
   Δ: 60,
   Ms: 8,
   braking: false,

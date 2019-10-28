@@ -67,7 +67,6 @@ const useStyles = makeStyles({
     // }
   },
   visContainer: {
-    margin: "10px auto",
     width: params.px.width,
     height: params.px.height
   },
@@ -103,7 +102,7 @@ const App: FunctionComponent<{}> = () => {
       <div className={classes.visContainer}>
         <Vis />
       </div>
-      <Paper className={classes.paper} elevation={2}>
+      <div className={classes.paper}>
         <Sliders />
         <div className={classes.buttons}>
           <Button
@@ -127,7 +126,7 @@ const App: FunctionComponent<{}> = () => {
             Reset
           </Button>
         </div>
-      </Paper>
+      </div>
     </div>
   );
 };

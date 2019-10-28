@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as colors from "@material-ui/core/colors";
 import makeStyles from "@material-ui/styles/makeStyles";
 import {
@@ -13,6 +13,8 @@ import DilemmaZone from "src/interactives/DilemmaZone";
 import Horizontal from "src/interactives/Horizontal";
 import FundamentalDiagrams from "src/interactives/FundamentalDiagrams";
 import TrafficVariables from "./interactives/TrafficVariables";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 // @ts-ignore
 import Negin from "./img/negin-cropped.jpg";
@@ -80,14 +82,30 @@ const About = (() => {
       }
     },
     person: {
-      display: "flex"
-      // marginBottom: "10px"
+      display: "flex",
+      marginBottom: "20px"
     }
   });
   return () => {
     const classes = useStyles({});
     return (
       <div className={classes.about}>
+        <div style={{ fontSize: "24px", marginBottom: "20px" }}>Vision</div>
+        <div>
+          Transportation engineering is all about vehicles in motion, but
+          transportation engineers and academics typically work with static
+          diagrams. This site is an experiment in the idea that students learn
+          the subject better when they can interact with moving representations.
+          The course CEE 310 is taught every semester, so the page will be
+          updated with new interactives as time goes on.
+        </div>
+        <hr />
+        {/* <hr /> */}
+        <div
+          style={{ fontSize: "24px", marginBottom: "20px", marginTop: "20px" }}
+        >
+          Team
+        </div>
         <div className={classes.person}>
           <div className={classes.imgContainer}>
             <img src={Lewis} />
@@ -99,10 +117,9 @@ const About = (() => {
             UC Berkeley and an MA in Transport Economics at University of Leeds.
             His research focuses on the economics of downtown traffic.
             <br />
-            <a href="https://lewislehe.com">Home page</a>
+            <a href="http://lewislehe.com">Home page</a>
           </div>
         </div>
-        <hr />
         <div className={classes.person}>
           <div className={classes.imgContainer}>
             <img src={Negin} />
@@ -117,6 +134,18 @@ const About = (() => {
             <br />
             <a href="https://nalemazkoor.wixsite.com/negin">Home page</a>
           </div>
+        </div>
+        <div
+          style={{
+            fontSize: "24px",
+            margin: "20px auto"
+          }}
+        >
+          Tools
+        </div>
+        <div>
+          The site was created using React, d3, Material UI, TypeScript,
+          Webpack, babel and Netlify.
         </div>
       </div>
     );
@@ -139,7 +168,10 @@ const App = () => {
         <div style={titleLink}>
           <Link to="/">home</Link>
         </div>
-        <div>
+        <div style={titleLink}>
+          <SimpleMenu />
+        </div>
+        <div style={titleLink}>
           <Link to="/about">about</Link>
         </div>
       </div>
@@ -155,6 +187,44 @@ const App = () => {
         </Switch>
       </div>
     </>
+  );
+};
+
+const SimpleMenu = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <div>
+      <div onClick={handleClick} style={{ cursor: "pointer" }}>
+        menu
+      </div>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        {list.map(d => (
+          <Link to={d[0]} key={d[0]}>
+            <MenuItem onClick={handleClose}> {d[1]}</MenuItem>
+          </Link>
+        ))}
+        {/* <Link to={"construction-zone"}>
+          <MenuItem onClick={handleClose}>Construction Zone</MenuItem>
+        </Link> */}
+        {/* <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+      </Menu>
+    </div>
   );
 };
 
@@ -174,7 +244,7 @@ const useStyles = makeStyles({
       fontSize: "18px"
     },
     ".katex": {
-      fontSize: "1em"
+      fontSize: "1.2em"
     }
   },
   title: {

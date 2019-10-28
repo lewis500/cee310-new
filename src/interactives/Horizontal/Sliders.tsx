@@ -50,7 +50,7 @@ export default () => {
         value={state.R}
         step={1}
         min={70}
-        max={110}
+        max={90}
       />
       {/* <Text variant="body1">
         <TeX math="x" /> position
