@@ -9,6 +9,10 @@ import Cumulative from "./Cumulative";
 import Slider from "@material-ui/core/Slider";
 import TeX from "@matejmazur/react-katex";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import Collapse from "@material-ui/core/Collapse";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
+import Paper from "@material-ui/core/Paper";
 
 const StyleSlider = withStyles(() => ({
   root: {
@@ -29,55 +33,81 @@ const App = () => {
   }, play);
 
   if (state.time > params.duration) dispatch({ type: "RESET" });
+  const [checked, setChecked] = React.useState(false);
+
+  const handleChange = () => {
+    setChecked(prev => !prev);
+  };
 
   return (
     <div className={classes.main}>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <TimeSpace width={700} height={350} />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center"
-          }}
-        >
-          <Button
-            className={classes.button}
-            variant="contained"
-            color="secondary"
-            onClick={() => dispatch({ type: "SET_PLAY", payload: !play })}
-          >
-            {play ? "PAUSE" : "PLAY"}
-          </Button>
-          <Button
-            className={classes.button}
-            variant="contained"
-            color="secondary"
-            onClick={() => {
-              dispatch({ type: "RESET" });
-            }}
-          >
-            Reset
-          </Button>
-          <div style={{ flex: "1 1 auto", padding: "0 20px" }}>
-            <div className={classes.sliderLabel} style={{ marginTop: 15 }}>
-              time <TeX math="t" />
-            </div>
-            <StyleSlider
-              component="div"
-              onChange={(e, payload: number) =>
-                dispatch({ type: "SET_TIME", payload })
-              }
-              value={state.time}
-              step={(1 / 200) * params.duration}
-              min={0}
-              max={params.duration}
+      <FormControlLabel
+        control={<Switch checked={checked} onChange={handleChange} />}
+        label="show video"
+      />
+      <Collapse in={checked}>
+        <Paper elevation={2}>
+          <div style={{ width: 640, height: 422 }}>
+            <iframe
+              width="640"
+              height="422"
+              src="https://www.loom.com/embed/6e95e2f9122f4579b5ee5538f5d2202a"
+              frameborder="0"
+              webkitallowfullscreen
+              mozallowfullscreen
+              allowfullscreen
             />
           </div>
+        </Paper>
+      </Collapse>
+      <div style={{ display: "flex", marginTop: '10px' }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <TimeSpace width={700} height={350} />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center"
+            }}
+          >
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="secondary"
+              onClick={() => dispatch({ type: "SET_PLAY", payload: !play })}
+            >
+              {play ? "PAUSE" : "PLAY"}
+            </Button>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="secondary"
+              onClick={() => {
+                dispatch({ type: "RESET" });
+              }}
+            >
+              Reset
+            </Button>
+            <div style={{ flex: "1 1 auto", padding: "0 20px" }}>
+              <div className={classes.sliderLabel} style={{ marginTop: 15 }}>
+                time <TeX math="t" />
+              </div>
+              <StyleSlider
+                component="div"
+                onChange={(e, payload: number) =>
+                  dispatch({ type: "SET_TIME", payload })
+                }
+                value={state.time}
+                step={(1 / 200) * params.duration}
+                min={0}
+                max={params.duration}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-      <div>
-        <Cumulative width={400} height={350} />
+        <div>
+          <Cumulative width={400} height={350} />
+        </div>
       </div>
     </div>
   );
@@ -102,7 +132,10 @@ const useStyles = makeStyles({
     color: colors.grey["800"],
     margin: "auto",
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: "-25px"
   },
   paper: {
     maxWidth: "500px",
