@@ -244,7 +244,8 @@ const useStyles = makeStyles({
       fontSize: "18px"
     },
     ".katex": {
-      fontSize: "1.2em"
+      // fontSize: "1.2em"
+      fontSize: '16px'
     }
   },
   title: {

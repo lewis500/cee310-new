@@ -19,41 +19,25 @@ const useStyles = makeStyles({
     boxSizing: "border-box",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   red: {
     fill: colors.red["A400"]
   },
-  paper: {
-    maxWidth: "500px",
-    margin: "auto",
-    display: "flex",
-    padding: "24px 36px",
-    flexDirection: "column"
-  },
   button: {
-    // alignSelf: "center"
   },
   visContainer: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     paddingRight: "30px"
-
-    // margin: "0 auto"
   },
-  sliderContainer: {
-    width: "300px",
-    padding: "20px",
-    boxSizing: "border-box"
-  }
 });
 
-// type setter = React.Dispatch<React.SetStateAction<number>>;
 const Sliders = (() => {
   const StyleSlider = withStyles((theme: Theme) => ({
     root: {
-      color: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
       marginBottom: "15px"
     }
   }))(Slider);

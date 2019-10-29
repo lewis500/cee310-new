@@ -3,7 +3,7 @@ import { widths } from "./constants";
 // import { colors } from "@material-ui/core";
 import * as colors from "@material-ui/core/colors";
 import { scaleLinear } from "d3-scale";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, withStyles } from "@material-ui/styles";
 import TeX from "@matejmazur/react-katex";
 const EMPTY = {};
 const useStyles = makeStyles({
@@ -24,9 +24,6 @@ const useStyles = makeStyles({
     fontSize: "12px",
     fontFamily: "Puritan, sans-serif"
   },
-  car: {
-    fill: colors.lightBlue["500"]
-  },
   xssd: {
     stroke: colors.green.A400,
     strokeWidth: "2px"
@@ -42,7 +39,7 @@ const WIDTH = 700,
     .domain([widths.start, widths.start - widths.total]);
 
 const lightColors = {
-  green: colors.green["400"],
+  green: colors.green.A700,
   red: colors.red["A200"],
   yellow: colors.yellow["700"]
 };
@@ -74,19 +71,37 @@ export const Road = CE(
   })
 );
 
-export const Car: FunctionComponent<{
-  x: number;
-  y: number;
-  violation: boolean;
-}> = ({ x, y, violation }) => {
-  return CE("rect", {
-    width: CAR_WIDTH,
-    height: CAR_HEIGHT,
-    fill: violation ? colors.red["A400"] : colors.lightBlue["A400"],
-    y: H2 + y - 4,
-    x: x - CAR_WIDTH
-  });
-};
+export const Car = withStyles({
+  car: {
+    fill: colors.purple["A400"],
+    rx: 1,
+    ry: 1
+  },
+  violated: {
+    extend: "car",
+    fill: colors.red.A400
+  }
+})(
+  ({
+    x,
+    y,
+    violation,
+    classes
+  }: {
+    x: number;
+    y: number;
+    violation: boolean;
+    classes: {};
+  }) => (
+    <rect
+      width={CAR_WIDTH}
+      height={CAR_HEIGHT}
+      className={violation ? classes.violated : classes.car}
+      y={H2 + y - 4}
+      x={x - CAR_WIDTH}
+    />
+  )
+);
 
 export const Light: FunctionComponent<{ color: string; classes: Classes }> = ({
   color
@@ -105,26 +120,28 @@ export const S0Line: FunctionComponent<{
   classes: Classes;
 }> = (() => {
   const line1 = CE("line", {
-    x1: 0,
-    x2: 0,
-    y1: 0,
-    y2: R2 - 10,
-    stroke: colors.grey["500"],
-    strokeWidth: "2px"
-  });
-  const line2 = CE("line", {
-    x1: 0,
-    x2: 0,
-    y1: R2 + 11,
-    y2: ROAD_WIDTH,
-    stroke: colors.grey["500"],
-    strokeWidth: "2px"
-  });
-  const math = (
-    <foreignObject width="30" height="30" y={R2 - 11} x="-7">
-      <TeX math="x_0" />
-    </foreignObject>
-  );
+      x1: 0,
+      x2: 0,
+      y1: 0,
+      y2: R2 - 10,
+      stroke: colors.grey["500"],
+      strokeWidth: "2px",
+      markerStart: "url(#arrow3)"
+    }),
+    line2 = CE("line", {
+      x1: 0,
+      x2: 0,
+      y1: R2 + 11,
+      y2: ROAD_WIDTH,
+      stroke: colors.grey["500"],
+      strokeWidth: "2px",
+      markerEnd: "url(#arrow3)"
+    }),
+    math = (
+      <foreignObject width="30" height="30" y={R2 - 11} x="-7">
+        <TeX math="x_0" />
+      </foreignObject>
+    );
   return ({ x }: { x: number }) => (
     <g transform={`translate(${x},${H2 - R2})`}>
       {line1}
@@ -198,7 +215,7 @@ const XclLine = (() => {
       {CE("line", {
         markerEnd: "url(#arrow2)",
         markerStart: "url(#arrow2)",
-        stroke: colors.deepOrange.A400,
+        stroke: colors.orange.A400,
         strokeWidth: 2,
         x2: 0,
         x1: START - x
@@ -248,7 +265,7 @@ const Vis: FunctionComponent<{
           markerWidth="6"
           markerHeight="6"
           orient="auto-start-reverse"
-          fill={colors.deepOrange.A400}
+          fill={colors.orange.A400}
         >
           <path d="M 0 0 L 10 5 L 0 10 z" />
         </marker>

@@ -51,7 +51,7 @@ const M = {
     xcl: {
       fill: "none",
       strokeWidth: 2,
-      stroke: colors.deepOrange.A400
+      stroke: colors.orange.A400
     },
     hidden: {
       fill: "white",
