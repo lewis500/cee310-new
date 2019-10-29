@@ -3,10 +3,10 @@ import React, {
   FunctionComponent,
   useLayoutEffect,
   useRef,
-  useContext,
+  useContext
 } from "react";
 import { params, widths } from "./constants";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, withStyles } from "@material-ui/styles";
 import { select, event } from "d3-selection";
 import { axisLeft, axisBottom } from "d3-axis";
 import { AppContext } from "./ducks";
@@ -15,10 +15,11 @@ import memoizeone from "memoize-one";
 import * as colors from "@material-ui/core/colors";
 import { drag } from "d3-drag";
 import TeX from "@matejmazur/react-katex";
-import 'katex/dist/katex.min.css';
+import "katex/dist/katex.min.css";
+import TexLabel from "src/sharedComponents/TexLabel";
 
 const WIDTH = 400;
-const HEIGHT = WIDTH*2/3;
+const HEIGHT = (WIDTH * 2) / 3;
 const M = {
     top: 10,
     bottom: 40,
@@ -46,7 +47,7 @@ const M = {
     xssd: {
       fill: "none",
       strokeWidth: 2,
-      stroke: colors.blue.A400
+      stroke: colors.blue['400']
     },
     xcl: {
       fill: "none",
@@ -83,7 +84,32 @@ const M = {
         .join("L")
   );
 
-const Plot: FunctionComponent = () => {
+const Legend = withStyles({
+  rect: {
+    rx: 1,
+    ry: 1,
+    stroke: "none"
+  },
+  xssd: {
+    fill: colors.blue['400']
+  },
+  xcl: {
+    fill: colors.orange.A400
+  }
+})(({ classes }: { classes: { [key: string]: string } }) => (
+  <g transform={`translate(${12},${30})`}>
+    <g>
+      <rect className={classes.xssd} width={10} height={10} />
+      <TexLabel latexstring="x_{\text{ssd}}" x={15} y={-7} />
+    </g>
+    <g transform="translate(0,20)">
+      <rect className={classes.xcl} width={10} height={10} />
+      <TexLabel latexstring="x_{\text{cl}}" x={15} y={-7} />
+    </g>
+  </g>
+));
+
+export default () => {
   const classes = useStyles({});
   const gXAxis = useRef<SVGGElement>();
   const gVAxis = useRef<SVGGElement>();
@@ -129,10 +155,10 @@ const Plot: FunctionComponent = () => {
         <foreignObject
           width="90"
           height="75"
-          transform={`translate(${WIDTH - 45},${HEIGHT - 20})`}
+          transform={`translate(${WIDTH - 48},${HEIGHT - 20})`}
         >
           <span className={classes.math}>
-            <TeX math="v \; \text{(m/s)}" />
+            <TeX math="v_0 \; \text{(m/s)}" />
           </span>
         </foreignObject>
         {/* <g transform={`translate(${WIDTH},${HEIGHT})`}> */}
@@ -149,9 +175,9 @@ const Plot: FunctionComponent = () => {
           r="6"
           transform={`translate(${vScale(v0)},${xScale(x0)})`}
         />
+        <Legend/>
         {/* </g> */}
       </g>
     </svg>
   );
 };
-export default Plot;
