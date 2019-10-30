@@ -21,6 +21,7 @@ const useStyles = makeStyles({
   main: {
     color: colors.grey["800"],
     margin: "0 auto",
+    marginTop: 10,
     boxSizing: "border-box",
     display: "flex",
     flexDirection: "row",
@@ -29,7 +30,8 @@ const useStyles = makeStyles({
   column: {
     flexDirection: "column",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: -15
   },
   red: {
     fill: colors.red["A400"]
@@ -139,10 +141,10 @@ const App: FunctionComponent<{}> = () => {
       />
       <Collapse in={checked}>
         <Paper elevation={2}>
-          <div style={{ width: 640, height: 422 }}>
+          <div style={{ width: 640, height: 380 }}>
             <iframe
               width="640"
-              height="422"
+              height="380"
               src="https://www.loom.com/embed/6d75a58ac2384ed5bdf13801cb055660"
               frameborder="0"
               webkitallowfullscreen
