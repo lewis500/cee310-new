@@ -53,18 +53,8 @@ export const history = (() => {
   }
   return history;
 })();
-console.log(cumulative);
 
-type Point = [number, number];
-
-type Interface = {
-  start: Point;
-  end: Point;
-  u: number;
-  l: number;
-};
-
-export const interfaces = (() => {
+export const trafficStates = (() => {
   const A = [params.blockTimes[0] + params.delta, params.blockX],
     B = [params.blockTimes[1], params.blockX],
     kQueue = params.kj1 - params.qc2 / params.w1,
@@ -72,8 +62,44 @@ export const interfaces = (() => {
     T =
       (params.blockDuration * vBack) / (params.w1 - vBack) +
       params.blockDuration,
-    C = [A[0] + T + 1, params.blockX - T * vBack];
-  return { dots: [A, B, C], lines: [[A, C], [B, C]] };
+    C = [A[0] + T + 1, params.blockX - T * vBack],
+    D = [A[0], params.total],
+    E = [B[0], params.total],
+    F = [C[0] + (params.total - C[0]) / params.vf1, params.total];
+    // G = [B[0] + ];
+
+  return [
+    {
+      k: params.Q / params.vf1,
+      q: params.Q,
+      points: [
+        [0, 0],
+        [0, params.total],
+        D,
+        A,
+        C,
+        F,
+        [params.duration, params.total],
+        [params.duration, 0],
+        [0, 0]
+      ]
+    },
+    {
+      k: kQueue,
+      q: params.qc2,
+      points: [A, B, C, A]
+    },
+    {
+      k: params.kc1,
+      q: params.qc1,
+      points: [B, C, F, E, B]
+    },
+    {
+      k: params.kc2,
+      q: params.qc2,
+      points: [A, B, E, D]
+    }
+  ];
 })();
 
 export const xOfT = history.map((d, i) =>
@@ -88,12 +114,20 @@ export const xOfT2 = history.map((d, i) => (int: number, frac: number) => {
   return x0 + (x1 - x0) * frac;
 });
 
-export const initialState = {
-  play: false,
-  time: 0
+export type State = {
+  play: boolean;
+  time: number;
+  trafficState: [number,number];
+  showState: boolean;
 };
 
-export type State = typeof initialState;
+export const initialState = {
+  play: false,
+  time: 0,
+  trafficState: [0, 0],
+  showState: false
+};
+
 type ActionTypes =
   | {
       type: "TICK";
@@ -105,6 +139,13 @@ type ActionTypes =
   | {
       type: "SET_TIME";
       payload: number;
+    }
+  | {
+      type: "HIGHLIGHT";
+      payload: [number, number];
+    }
+  | {
+      type: "HIDE";
     }
   | {
       type: "RESET";
@@ -130,6 +171,17 @@ export const reducer = (state: State, action: ActionTypes): State => {
       return {
         ...state,
         play: action.payload
+      };
+    case "HIGHLIGHT":
+      return {
+        ...state,
+        showState: true,
+        trafficState: action.payload
+      };
+    case "HIDE":
+      return {
+        ...state,
+        showState: false
       };
     case "RESET":
       return {

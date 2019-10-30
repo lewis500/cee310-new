@@ -13,6 +13,7 @@ import Collapse from "@material-ui/core/Collapse";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import Paper from "@material-ui/core/Paper";
+import QK from "./QK";
 
 const StyleSlider = withStyles(() => ({
   root: {
@@ -60,7 +61,7 @@ const App = () => {
           </div>
         </Paper>
       </Collapse>
-      <div style={{ display: "flex", marginTop: '10px' }}>
+      <div style={{ display: "flex", marginTop: "10px" }}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <TimeSpace width={700} height={350} />
           <div
@@ -105,8 +106,13 @@ const App = () => {
             </div>
           </div>
         </div>
-        <div>
-          <Cumulative width={400} height={350} />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div>
+            <Cumulative width={400} height={350} />
+          </div>
+          <div>
+            <QK width={400} height={250} />
+          </div>
         </div>
       </div>
     </div>

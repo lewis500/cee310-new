@@ -24,7 +24,7 @@ export default React.memo<{
   latexstring: string;
 }>(({ x, y, dx = 0, dy = 0, rotate = 0, latexstring = "" }) => (
   <foreignObject
-    width="75"
+    width="80"
     height="75"
     transform={`translate(${x}, ${y}) rotate(${rotate}) translate(${dx},${dy})`}
   >

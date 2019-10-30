@@ -245,7 +245,11 @@ const useStyles = makeStyles({
     },
     ".katex": {
       // fontSize: "1.2em"
-      fontSize: '16px'
+      fontSize: "15px"
+    },
+    text: {
+      fontFamily: "Puritan, san-serif",
+      fontSize: "11px"
     }
   },
   title: {

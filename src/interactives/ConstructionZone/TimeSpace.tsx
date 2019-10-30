@@ -1,7 +1,4 @@
-import React, {
-  createElement as CE,
-  useContext
-} from "react";
+import React, { useMemo, createElement as CE, useContext } from "react";
 import * as params from "./constants";
 import { AppContext } from "./ducks";
 import { ScaleLinear } from "d3-scale";
@@ -18,8 +15,8 @@ import TexLabel from "src/sharedComponents/TexLabel";
 const M = {
     top: 20,
     bottom: 25,
-    left: 50,
-    right: 40
+    left: 25,
+    right: 10
   },
   gTranslate = `translate(${M.left},${M.top})`;
 
@@ -59,7 +56,8 @@ const Trajectories = (() => {
   const style = {
     fill: "none",
     stroke: colors.lightBlue["A400"],
-    strokeWidth: "2px"
+    strokeWidth: "2px",
+    pointerEvents: "none"
   };
   return React.memo(
     ({
@@ -93,13 +91,19 @@ const Detectors = (() => {
       strokeDasharray: "3,4",
       strokeLinecap: "round"
     },
-    aStyle = { ...dStyle, stroke: params.aColor };
-  return ({
+    aStyle = { ...dStyle, stroke: params.aColor },
+    czStyle = { ...dStyle, stroke: colors.green['A700'] },
+    tStyle={...dStyle, stroke: colors.grey['500']};
+  return React.memo(({
     xScale,
-    width
+    tScale,
+    width,
+    height
   }: {
     xScale: ScaleLinear<number, number>;
+    tScale: ScaleLinear<number, number>;
     width: number;
+    height: number;
   }) => (
     <g>
       <g transform={`translate(0,${xScale(params.aDetector)})`}>
@@ -116,8 +120,33 @@ const Detectors = (() => {
           d: `M0,0L${width},0`
         })}
       </g>
+      <g transform={`translate(0,${xScale(params.blockX)})`}>
+        <TexLabel latexstring="x_{cz}" x={-22} y={-10} />
+        {CE("path", {
+          ...czStyle,
+          d: `M0,0L${width},0`
+        })}
+      </g>
+      <g
+        transform={`translate(${tScale(params.blockStart)},${height})`}
+      >
+        <TexLabel latexstring="t_0" x={-2} y={0} />
+        {CE("path", {
+          ...tStyle,
+          d: `M0,0L${0},${-height}`
+        })}
+      </g>
+      <g
+        transform={`translate(${tScale(params.blockTimes[1])},${height})`}
+      >
+        <TexLabel latexstring="t_1" x={-2} y={0} />
+        {CE("path", {
+          ...tStyle,
+          d: `M0,0L${0},${-height}`
+        })}
+      </g>
     </g>
-  );
+  ));
 })();
 
 const Marker = (
@@ -140,9 +169,34 @@ export default ({ width, height }: { width: number; height: number }) => {
   const classes = useStyles({ width, height });
   width = width - M.left - M.right;
   height = height - M.bottom - M.top;
-  const { state } = useContext(AppContext),
+  const { state, dispatch } = useContext(AppContext),
     xScale = useScale([height, 0], [0, params.total], [height]),
     tScale = useScale([0, width], [0, params.duration], [width]);
+  const TrafficStates = useMemo(() => {
+    return (
+      <g mask="url(#coverMask)">
+        {ducks.trafficStates.map(d => (
+          <path
+            className={classes.trafficState}
+            key={d.k}
+            onMouseOver={() => {
+              dispatch({ type: "HIGHLIGHT", payload: [d.k, d.q] });
+            }}
+            onMouseOut={() => {
+              dispatch({ type: "HIDE" });
+            }}
+            d={
+              d.points.reduce(
+                (a, v) => a + tScale(v[0]) + "," + xScale(v[1]) + " ",
+                "M"
+              ) + "Z"
+            }
+          />
+        ))}
+      </g>
+    );
+  }, [width, height]);
+
   return (
     <svg className={classes.svg}>
       {Marker}
@@ -150,21 +204,27 @@ export default ({ width, height }: { width: number; height: number }) => {
         <mask id="myMask">
           <rect height={height} width={width} fill="white" stroke="none" />
         </mask>
-        <mask id="coverMask">
-          <rect width={tScale(state.time)} height={height} fill="white" />
-        </mask>
+        {/* <mask id="coverMask"> */}
+        {/* </mask> */}
+        {TrafficStates}
         <g style={{ mask: "url(#myMask)" }}>
           <Trajectories tScale={tScale} xScale={xScale} />
+          <rect
+            x={tScale(state.time)}
+            width={width - tScale(state.time)}
+            height={height}
+            fill="white"
+          />
           <g
             transform={`translate(${tScale(state.time)},${height}) rotate(-90)`}
           >
             <Road height={30} width={height} />
           </g>
         </g>
-        {ducks.interfaces.dots.map((d, i) => (
+        {/* {ducks.interfaces.dots.map((d, i) => (
           <circle key={i} cx={tScale(d[0])} cy={xScale(d[1])} r="5" />
-        ))}
-        {ducks.interfaces.lines.map((d, i) => (
+        ))} */}
+        {/* {ducks.interfaces.lines.map((d, i) => (
           <line
             key={i}
             x1={tScale(d[0][0])}
@@ -173,8 +233,13 @@ export default ({ width, height }: { width: number; height: number }) => {
             y2={xScale(d[1][1])}
             className={classes.interface}
           />
-        ))}
-        <Detectors xScale={xScale} width={width} />
+        ))} */}
+        <Detectors
+          xScale={xScale}
+          width={width}
+          tScale={tScale}
+          height={height}
+        />
         <Axes width={width} height={height} />
       </g>
     </svg>
@@ -191,17 +256,12 @@ const useStyles = makeStyles(
         fontSize: "11px"
       }
     }),
-    math: {
-      fontSize: "12px"
-    },
-    trajectory: {
-      fill: "none",
-      stroke: colors.lightBlue["300"],
-      strokeWidth: "2px"
-    },
-    interface: {
-      strokeWidth: "3px",
-      stroke: colors.pink["500"]
+    trafficState: {
+      fill: colors.pink["200"],
+      opacity: 0.0,
+      "&:hover": {
+        opacity: 0.2
+      }
     },
     hidden: {
       fill: "white",
