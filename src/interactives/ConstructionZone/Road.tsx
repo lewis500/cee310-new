@@ -79,6 +79,6 @@ const useStyles = makeStyles({
     fontFamily: "Puritan, sans-serif"
   },
   cZone: {
-    stroke: colors.amber["A700"]
+    stroke: colors.amber["A400"]
   }
 });

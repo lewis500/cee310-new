@@ -66,7 +66,7 @@ export const trafficStates = (() => {
     D = [A[0], params.total],
     E = [B[0], params.total],
     F = [C[0] + (params.total - C[0]) / params.vf1, params.total];
-    // G = [B[0] + ];
+  // G = [B[0] + ];
 
   return [
     {
@@ -117,14 +117,14 @@ export const xOfT2 = history.map((d, i) => (int: number, frac: number) => {
 export type State = {
   play: boolean;
   time: number;
-  trafficState: [number,number];
+  trafficState: [number, number];
   showState: boolean;
 };
 
 export const initialState = {
   play: false,
   time: 0,
-  trafficState: [0, 0],
+  trafficState: [0, 0] as [number, number],
   showState: false
 };
 

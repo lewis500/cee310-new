@@ -90,7 +90,7 @@ export const Car = withStyles({
     x: number;
     y: number;
     violation: boolean;
-    classes: {};
+    classes: { [key: string]: string };
   }) => (
     <rect
       width={CAR_WIDTH}

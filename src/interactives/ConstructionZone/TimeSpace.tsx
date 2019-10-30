@@ -92,61 +92,59 @@ const Detectors = (() => {
       strokeLinecap: "round"
     },
     aStyle = { ...dStyle, stroke: params.aColor },
-    czStyle = { ...dStyle, stroke: colors.green['A700'] },
-    tStyle={...dStyle, stroke: colors.grey['500']};
-  return React.memo(({
-    xScale,
-    tScale,
-    width,
-    height
-  }: {
-    xScale: ScaleLinear<number, number>;
-    tScale: ScaleLinear<number, number>;
-    width: number;
-    height: number;
-  }) => (
-    <g>
-      <g transform={`translate(0,${xScale(params.aDetector)})`}>
-        <TexLabel latexstring="x_a" x={-22} y={-10} />
-        {CE("path", {
-          ...aStyle,
-          d: `M0,0L${width},0`
-        })}
+    czStyle = { ...dStyle, stroke: colors.green["A700"] },
+    tStyle = { ...dStyle, stroke: colors.grey["500"] };
+  return React.memo(
+    ({
+      xScale,
+      tScale,
+      width,
+      height
+    }: {
+      xScale: ScaleLinear<number, number>;
+      tScale: ScaleLinear<number, number>;
+      width: number;
+      height: number;
+    }) => (
+      <g>
+        <g transform={`translate(0,${xScale(params.aDetector)})`}>
+          <TexLabel latexstring="x_a" x={-22} y={-10} />
+          {CE("path", {
+            ...aStyle,
+            d: `M0,0L${width},0`
+          })}
+        </g>
+        <g transform={`translate(0,${xScale(params.dDetector)})`}>
+          <TexLabel latexstring="x_d" x={-22} y={-10} />
+          {CE("path", {
+            ...dStyle,
+            d: `M0,0L${width},0`
+          })}
+        </g>
+        <g transform={`translate(0,${xScale(params.blockX)})`}>
+          <TexLabel latexstring="x_{cz}" x={-22} y={-10} />
+          {CE("path", {
+            ...czStyle,
+            d: `M0,0L${width},0`
+          })}
+        </g>
+        <g transform={`translate(${tScale(params.blockStart)},${height})`}>
+          <TexLabel latexstring="t_0" x={-2} y={0} />
+          {CE("path", {
+            ...tStyle,
+            d: `M0,0L${0},${-height}`
+          })}
+        </g>
+        <g transform={`translate(${tScale(params.blockTimes[1])},${height})`}>
+          <TexLabel latexstring="t_1" x={-2} y={0} />
+          {CE("path", {
+            ...tStyle,
+            d: `M0,0L${0},${-height}`
+          })}
+        </g>
       </g>
-      <g transform={`translate(0,${xScale(params.dDetector)})`}>
-        <TexLabel latexstring="x_d" x={-22} y={-10} />
-        {CE("path", {
-          ...dStyle,
-          d: `M0,0L${width},0`
-        })}
-      </g>
-      <g transform={`translate(0,${xScale(params.blockX)})`}>
-        <TexLabel latexstring="x_{cz}" x={-22} y={-10} />
-        {CE("path", {
-          ...czStyle,
-          d: `M0,0L${width},0`
-        })}
-      </g>
-      <g
-        transform={`translate(${tScale(params.blockStart)},${height})`}
-      >
-        <TexLabel latexstring="t_0" x={-2} y={0} />
-        {CE("path", {
-          ...tStyle,
-          d: `M0,0L${0},${-height}`
-        })}
-      </g>
-      <g
-        transform={`translate(${tScale(params.blockTimes[1])},${height})`}
-      >
-        <TexLabel latexstring="t_1" x={-2} y={0} />
-        {CE("path", {
-          ...tStyle,
-          d: `M0,0L${0},${-height}`
-        })}
-      </g>
-    </g>
-  ));
+    )
+  );
 })();
 
 const Marker = (
@@ -180,7 +178,10 @@ export default ({ width, height }: { width: number; height: number }) => {
             className={classes.trafficState}
             key={d.k}
             onMouseOver={() => {
-              dispatch({ type: "HIGHLIGHT", payload: [d.k, d.q] });
+              dispatch({
+                type: "HIGHLIGHT",
+                payload: [d.k, d.q] 
+              });
             }}
             onMouseOut={() => {
               dispatch({ type: "HIDE" });

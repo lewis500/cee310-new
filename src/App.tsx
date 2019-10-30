@@ -249,7 +249,7 @@ const useStyles = makeStyles({
     },
     text: {
       fontFamily: "Puritan, san-serif",
-      fontSize: "11px"
+      fontSize: "13px"
     }
   },
   title: {

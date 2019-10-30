@@ -4,6 +4,7 @@ import * as ducks from "./ducks";
 import * as params from "./constants";
 import * as colors from "@material-ui/core/colors";
 import makeStyles from "@material-ui/styles/makeStyles";
+import withStyles from "@material-ui/styles/withStyles";
 import TexLabel from "src/sharedComponents/TexLabel";
 import Arrow from "src/sharedComponents/Arrow";
 import useScale from "src/hooks/useScale";
@@ -22,6 +23,44 @@ const marginer = ({ width, height }: { width: number; height: number }) => ({
 });
 
 const EMPTY = {};
+
+const Legend = withStyles({
+  rect: {
+    rx: 1,
+    ry: 1,
+    stroke: "none"
+  },
+  root: {
+    fontSize: "15px"
+  }
+})(({ classes }: { classes: { [key: string]: string } }) => (
+  <g transform={`translate(${12},${5})`} >
+    <g transform="translate(0,5)">
+      <rect
+        className={classes.rect}
+        width={10}
+        height={2}
+        style={{ fill: params.dColor }}
+      />
+      <text x={15} y={4} className={classes.root}>
+        cumulative departures
+      </text>
+      {/* <TexLabel latexstring="\\text{dilemma zone}" x={15} y={-7} /> */}
+    </g>
+    <g transform="translate(0,25)">
+      <rect
+        className={classes.rect}
+        width={10}
+        height={2}
+        style={{ fill: params.aColor }}
+      />
+      <text x={15} y={4} className={classes.root}>
+        cumulative arrivals
+      </text>
+      {/* <TexLabel latexstring="\\text{dilemma zone}" x={15} y={-7} /> */}
+    </g>
+  </g>
+));
 
 const Axes = (() => {
   const style = {
@@ -80,6 +119,7 @@ export default ({ width, height }: { width: number; height: number }) => {
         <mask id="coverMask-cum">
           <rect width={tScale(state.time)} height={height} fill="white" />
         </mask>
+        <Legend />
         <g mask="url(#coverMask-cum)">
           <path className={classes.aPath} d={aPath} />
           <path className={classes.dPath} d={dPath} />
@@ -127,7 +167,7 @@ const useStyles = makeStyles({
     height,
     "& text": {
       fontFamily: "Puritan, san-serif",
-      fontSize: "11px"
+      fontSize: "13px"
     }
   }),
   masked: {
