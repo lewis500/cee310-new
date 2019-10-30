@@ -143,7 +143,7 @@ const App: FunctionComponent<{}> = () => {
             <iframe
               width="640"
               height="422"
-              src="https://www.loom.com/embed/6e95e2f9122f4579b5ee5538f5d2202a"
+              src="https://www.loom.com/embed/6d75a58ac2384ed5bdf13801cb055660"
               frameborder="0"
               webkitallowfullscreen
               mozallowfullscreen
