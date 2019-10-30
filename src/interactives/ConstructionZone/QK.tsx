@@ -3,6 +3,7 @@ import { AppContext } from "./ducks";
 import * as params from "./constants";
 import * as colors from "@material-ui/core/colors";
 import makeStyles from "@material-ui/styles/makeStyles";
+import withStyles from "@material-ui/styles/withStyles";
 import TexLabel from "src/sharedComponents/TexLabel";
 import useElementSize from "src/hooks/useElementSizeHook";
 import Arrow from "src/sharedComponents/Arrow";
@@ -14,6 +15,52 @@ const M = {
   left: 20,
   right: 10
 };
+
+const Legend = withStyles({
+  rect: {
+    rx: 1,
+    ry: 1,
+    stroke: "none"
+  },
+  root: {
+    fontSize: "15px"
+  }
+})(
+  ({
+    classes,
+    width
+  }: {
+    classes: { [key: string]: string };
+    width: number;
+  }) => (
+    <g transform={`translate(${width - 150},${5})`}>
+      <g transform="translate(0,5)">
+        <rect
+          className={classes.rect}
+          width={10}
+          height={2}
+          style={{ fill: colors.lightBlue["A700"] }}
+        />
+        <text x={15} y={4} className={classes.root}>
+          regular F.D.
+        </text>
+        {/* <TexLabel latexstring="\\text{dilemma zone}" x={15} y={-7} /> */}
+      </g>
+      <g transform="translate(0,25)">
+        <rect
+          className={classes.rect}
+          width={10}
+          height={2}
+          style={{ fill: colors.amber["A400"] }}
+        />
+        <text x={15} y={4} className={classes.root}>
+          construction zone F.D.
+        </text>
+        {/* <TexLabel latexstring="\\text{dilemma zone}" x={15} y={-7} /> */}
+      </g>
+    </g>
+  )
+);
 
 export default ({ width, height }: { width: number; height: number }) => {
   const { state } = useContext(AppContext),
@@ -28,7 +75,13 @@ export default ({ width, height }: { width: number; height: number }) => {
         [[0, 0], [params.kc1, params.qc1], [params.kj1, 0]]
           .map(([k, q]) => [kScale(k), qScale(q)])
           .join("L");
-      return <path className={classes.path} d={d} />;
+      return (
+        <path
+          className={classes.path}
+          d={d}
+          stroke={colors.lightBlue["A700"]}
+        />
+      );
     }, [width, height]),
     QKPath2 = useMemo(() => {
       const d =
@@ -36,7 +89,9 @@ export default ({ width, height }: { width: number; height: number }) => {
         [[0, 0], [params.kc2, params.qc2], [params.kj2, 0]]
           .map(([k, q]) => [kScale(k), qScale(q)])
           .join("L");
-      return <path className={classes.path} d={d} />;
+      return (
+        <path className={classes.path} d={d} stroke={colors.amber["A400"]} />
+      );
     }, [width, height]);
   return (
     <svg className={classes.svg}>
@@ -45,6 +100,7 @@ export default ({ width, height }: { width: number; height: number }) => {
         <mask id="myMask4">
           <rect width={width} height={height} fill="white" />
         </mask>
+        <Legend width={width} />
         <g mask="url(#myMask4)">
           {QKPath1}
           {QKPath2}
@@ -66,7 +122,7 @@ export default ({ width, height }: { width: number; height: number }) => {
             markerStart="url(#arrow)"
           />
           {/* <TexLabel y={qScale(params.q0) - 12} x={-15} latexstring="q_0" /> */}
-          <TexLabel x={10} y={0} latexstring="q \; (\text{veh/min})" />
+          <TexLabel x={10} y={-15} latexstring="q \; (\text{veh/min})" />
         </g>
 
         <g transform={`translate(0,${height})`} id="g-kaxis">
@@ -101,7 +157,6 @@ const useStyles = makeStyles({
   path: {
     strokeWidth: "2px",
     fill: "none",
-    stroke: colors.lightBlue["A700"],
     opacity: 0.8
   },
   //   container: {
