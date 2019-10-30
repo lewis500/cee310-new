@@ -159,11 +159,6 @@ const useStyles = makeStyles({
     fill: "none",
     opacity: 0.8
   },
-  //   container: {
-  //     position: "relative",
-  //     width: "100%",
-  //     height: "100%"
-  //   },
   line: {
     strokeWidth: "1.5px",
     stroke: colors.lightBlue["A400"],
@@ -172,10 +167,6 @@ const useStyles = makeStyles({
   svg: ({ width, height }: { width: number; height: number }) => ({
     width,
     height
-    // "& text": {
-    //   fontFamily: "Puritan, san-serif",
-    //   fontSize: "11px"
-    // }
   }),
   cut: {
     stroke: colors.grey["700"],
@@ -185,8 +176,6 @@ const useStyles = makeStyles({
   },
   car: {
     fill: colors.purple["A400"]
-    // stroke: 'black'
-    // stroke: colors.grey["800"]
   },
   masked: {
     mask: "url(#myMask2)"
@@ -196,7 +185,6 @@ const useStyles = makeStyles({
   },
   road: {
     stroke: colors.grey["300"]
-    // opacity: .95
   },
   axis: {
     strokeWidth: "2px",

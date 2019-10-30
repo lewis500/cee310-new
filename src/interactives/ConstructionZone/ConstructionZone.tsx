@@ -48,16 +48,16 @@ const App = () => {
       />
       <Collapse in={checked}>
         <Paper elevation={2}>
-          <div style={{ width: 640, height: 422 }}>
+          <div style={{ width: 640, height: 497 }}>
             <iframe
               width="640"
-              height="422"
-              src="https://www.loom.com/embed/6e95e2f9122f4579b5ee5538f5d2202a"
+              height="497"
+              src="https://www.loom.com/embed/cc20ab7d23dd48109c4d2d50c5f57ace"
               frameborder="0"
               webkitallowfullscreen
               mozallowfullscreen
               allowfullscreen
-            />
+            ></iframe>
           </div>
         </Paper>
       </Collapse>
