@@ -17,7 +17,7 @@ export type State = {
 };
 
 export const initialState = {
-  play: false,
+  play: true,
   time: 0,
   k: k0
 };

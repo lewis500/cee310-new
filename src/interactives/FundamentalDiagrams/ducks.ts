@@ -45,7 +45,7 @@ const setLanes = (vk: VKType): Lane[] =>
   }));
 
 export const initialState = {
-  play: false,
+  play: true,
   lanes: setLanes(VKType.TRIANGLE),
   vk: VKType.TRIANGLE
 };

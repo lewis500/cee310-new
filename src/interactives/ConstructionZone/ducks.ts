@@ -122,7 +122,7 @@ export type State = {
 };
 
 export const initialState = {
-  play: false,
+  play: true,
   time: 0,
   trafficState: [0, 0] as [number, number],
   showState: false

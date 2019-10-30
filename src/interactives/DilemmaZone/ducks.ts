@@ -3,7 +3,7 @@ import memoizeone from "memoize-one";
 import { params, widths } from "./constants";
 
 export const initialState = {
-  play: false,
+  play: true,
   v0: params.v0,
   x0: widths.start * 0.75,
   stopper: {

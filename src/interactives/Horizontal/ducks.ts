@@ -7,7 +7,7 @@ import { scaleLinear, ScaleLinear } from "d3-scale";
 type NN = number;
 
 export const initialState = {
-  play: false,
+  play: true,
   x: 0,
   v: 20,
   v0: 20,
