@@ -88,7 +88,7 @@ const Sliders = (() => {
             dispatch({ type: "SET_YELLOW", payload })
           }
           value={yellow}
-          step={0.1}
+          step={0.02}
           min={0}
           max={params.yellowMax}
         />

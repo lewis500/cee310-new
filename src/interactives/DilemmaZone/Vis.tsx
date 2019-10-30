@@ -13,7 +13,6 @@ const useStyles = makeStyles({
   },
   svg: {
     display: "inline-block",
-    // margin: "30px 0",
     "& text": {
       fontFamily: "Puritan, san-serif",
       fontSize: "13px"
@@ -73,7 +72,7 @@ export const Road = CE(
 
 export const Car = withStyles({
   car: {
-    fill: colors.purple["A400"],
+    fill: colors.purple["A200"],
     rx: 1,
     ry: 1
   },

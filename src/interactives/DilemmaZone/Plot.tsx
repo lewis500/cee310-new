@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { params, widths } from "./constants";
 import { makeStyles, withStyles } from "@material-ui/styles";
+import "d3-selection";
 import { select, event } from "d3-selection";
 import { axisLeft, axisBottom } from "d3-axis";
 import { AppContext } from "./ducks";
@@ -17,6 +18,10 @@ import { drag } from "d3-drag";
 import TeX from "@matejmazur/react-katex";
 import "katex/dist/katex.min.css";
 import TexLabel from "src/sharedComponents/TexLabel";
+import { useTimer, useInterval } from "src/hooks/useTimerHook";
+import { area } from "d3-shape";
+
+import { easeCubicOut, easeCubicInOut } from "d3-ease";
 
 const WIDTH = 400;
 const HEIGHT = (WIDTH * 2) / 3;
@@ -44,15 +49,21 @@ const M = {
       fill: colors.pink["500"],
       cursor: "pointer"
     },
+    path: {},
     xssd: {
-      fill: "none",
       strokeWidth: 2,
-      stroke: colors.blue['400']
+      fill: "none",
+      stroke: colors.blue["400"]
     },
     xcl: {
-      fill: "none",
       strokeWidth: 2,
+      fill: "none",
       stroke: colors.orange.A400
+    },
+    dz: {
+      fill: colors.pink.A200,
+      opacity: 0.3,
+      stroke: "none"
     },
     hidden: {
       fill: "white",
@@ -68,7 +79,7 @@ const M = {
   xAxis = axisLeft(xScale),
   vAxis = axisBottom(vScale),
   getTranslate = memoizeone((vpx, xpx) => `translate(${vpx},${xpx})`),
-  range: number[] = Array.apply(null, { length: 50 }).map(
+  range: number[] = Array.apply(null, { length: 80 }).map(
     (d: {}, i: number) => i
   ),
   xssdPath =
@@ -82,7 +93,21 @@ const M = {
       range
         .map(v => [vScale(v), xScale(-widths.car.width + v * yellow)])
         .join("L")
-  );
+  ),
+  areaGen = area<[number, number, number]>()
+    .x(d => vScale(d[0]))
+    .y0(d => xScale(d[2]))
+    .y1(d => xScale(Math.max(d[1], d[2]))),
+  // .defined(d => d[1] >= d[2] ),
+  getDZPath = memoizeone((yellow: number) => {
+    return areaGen(
+      range.map(v => [
+        v,
+        params.tp * v + (v * v) / 2 / params.a,
+        -widths.car.width + v * yellow
+      ])
+    );
+  });
 
 const Legend = withStyles({
   rect: {
@@ -91,10 +116,15 @@ const Legend = withStyles({
     stroke: "none"
   },
   xssd: {
-    fill: colors.blue['400']
+    fill: colors.blue["400"]
   },
   xcl: {
     fill: colors.orange.A400
+  },
+  dz: {
+    fill: colors.pink.A200,
+    opacity: 0.3,
+    stroke: "none"
   }
 })(({ classes }: { classes: { [key: string]: string } }) => (
   <g transform={`translate(${12},${30})`}>
@@ -105,6 +135,13 @@ const Legend = withStyles({
     <g transform="translate(0,20)">
       <rect className={classes.xcl} width={10} height={10} />
       <TexLabel latexstring="x_{\text{cl}}" x={15} y={-7} />
+    </g>
+    <g transform="translate(0,40)">
+      <rect className={classes.dz} width={10} height={10} />
+      <text x={15} y={9}>
+        dilemma zone
+      </text>
+      {/* <TexLabel latexstring="\\text{dilemma zone}" x={15} y={-7} /> */}
     </g>
   </g>
 ));
@@ -134,6 +171,20 @@ export default () => {
     });
     select(dragDot.current).call(dragger);
   }, []);
+  function bouncer() {
+    select(dragDot.current)
+      .transition()
+      .ease(easeCubicOut)
+      .duration(400)
+      .attr("r", 7)
+      .transition()
+      .ease(easeCubicInOut)
+      .duration(400)
+      .attr("r", 5)
+      .on("end", bouncer);
+  }
+  useLayoutEffect(bouncer, []);
+
   return (
     <svg className={classes.svg}>
       <g transform={getTranslate(M.left, M.top)}>
@@ -163,6 +214,11 @@ export default () => {
         </foreignObject>
         {/* <g transform={`translate(${WIDTH},${HEIGHT})`}> */}
 
+        <path
+          d={getDZPath(state.yellow)}
+          className={classes.dz}
+          mask="url(#myMask)"
+        />
         <path d={xssdPath} className={classes.xssd} mask="url(#myMask)" />
         <path
           d={getxclPath(state.yellow)}
@@ -172,10 +228,9 @@ export default () => {
         <circle
           ref={dragDot}
           className={classes.dot}
-          r="6"
           transform={`translate(${vScale(v0)},${xScale(x0)})`}
         />
-        <Legend/>
+        <Legend />
         {/* </g> */}
       </g>
     </svg>
