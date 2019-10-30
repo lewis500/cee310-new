@@ -12,6 +12,11 @@ import { makeStyles } from "@material-ui/styles";
 import { AppContext, getxssd, getxcl, reducer, initialState } from "./ducks";
 import TeX from "@matejmazur/react-katex";
 
+import Collapse from "@material-ui/core/Collapse";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
+import Paper from "@material-ui/core/Paper";
+
 const useStyles = makeStyles({
   main: {
     color: colors.grey["800"],
@@ -19,19 +24,23 @@ const useStyles = makeStyles({
     boxSizing: "border-box",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "center"
+  },
+  column: {
+    flexDirection: "column",
+    display: "flex",
+    alignItems: "center"
   },
   red: {
     fill: colors.red["A400"]
   },
-  button: {
-  },
+  button: {},
   visContainer: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     paddingRight: "30px"
-  },
+  }
 });
 
 const Sliders = (() => {
@@ -117,56 +126,82 @@ const App: FunctionComponent<{}> = () => {
     }
   }, play);
 
+  const [checked, setChecked] = React.useState(false);
+  const handleChange = () => {
+    setChecked(prev => !prev);
+  };
+
   return (
-    <div className={classes.main}>
-      <div className={classes.visContainer}>
-        <div style={{ marginBottom: "30px" }}>
-          {Vis({
-            mover,
-            stopper,
-            xcl,
-            x0,
-            lightColor:
-              time < (widths.start - x0) / v0
-                ? "green"
-                : time - (widths.start - x0) / v0 < yellow
-                ? "yellow"
-                : "red",
-            xssd
-          })}
+    <div className={classes.column}>
+      <FormControlLabel
+        control={<Switch checked={checked} onChange={handleChange} />}
+        label="show video"
+      />
+      <Collapse in={checked}>
+        <Paper elevation={2}>
+          <div style={{ width: 640, height: 422 }}>
+            <iframe
+              width="640"
+              height="422"
+              src="https://www.loom.com/embed/6e95e2f9122f4579b5ee5538f5d2202a"
+              frameborder="0"
+              webkitallowfullscreen
+              mozallowfullscreen
+              allowfullscreen
+            />
+          </div>
+        </Paper>
+      </Collapse>
+      <div className={classes.main}>
+        <div className={classes.visContainer}>
+          <div style={{ marginBottom: "30px" }}>
+            {Vis({
+              mover,
+              stopper,
+              xcl,
+              x0,
+              lightColor:
+                time < (widths.start - x0) / v0
+                  ? "green"
+                  : time - (widths.start - x0) / v0 < yellow
+                  ? "yellow"
+                  : "red",
+              xssd
+            })}
+          </div>
+          <Plot />
         </div>
-        <Plot />
-      </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <Sliders />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-around"
-          }}
-        >
-          <Button
-            className={classes.button}
-            variant="contained"
-            color="secondary"
-            onClick={() => dispatch({ type: "SET_PLAY", payload: !play })}
-          >
-            {play ? "PAUSE" : "PLAY"}
-          </Button>
-          <Button
-            className={classes.button}
-            variant="contained"
-            color="secondary"
-            component="div"
-            onClick={() => {
-              dispatch({ type: "RESET" });
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Sliders />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-around"
             }}
           >
-            Reset
-          </Button>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="secondary"
+              onClick={() => dispatch({ type: "SET_PLAY", payload: !play })}
+            >
+              {play ? "PAUSE" : "PLAY"}
+            </Button>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="secondary"
+              component="div"
+              onClick={() => {
+                dispatch({ type: "RESET" });
+              }}
+            >
+              Reset
+            </Button>
+          </div>
+          <div></div>
         </div>
-        <div></div>
       </div>
     </div>
   );
