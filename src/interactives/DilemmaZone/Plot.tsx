@@ -38,10 +38,13 @@ const M = {
       "& text": {
         fontFamily: "Puritan, san-serif",
         fontSize: "13px"
+      },
+      "& .katex":{
+        fontSize: '13px'
       }
     },
     math: {
-      fontSize: "12px"
+      fontSize: "10px"
     },
     dot: {
       stroke: "white",
