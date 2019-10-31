@@ -15,6 +15,7 @@ import FundamentalDiagrams from "src/interactives/FundamentalDiagrams";
 import TrafficVariables from "./interactives/TrafficVariables";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import SpaceMeanSpeed from './interactives/SpaceMeanSpeed';
 
 // @ts-ignore
 import Negin from "./img/negin-cropped.jpg";
@@ -27,7 +28,8 @@ const map: { [key: string]: string } = {
     "construction-zone": "Construction Zone",
     "fundamental-diagrams": "Three Fundamental Diagrams",
     horizontal: "Horizontal Curves",
-    "flow-and-density": "Flow and Density"
+    "flow-and-density": "Flow and Density",
+    "space-mean": "Space vs. Time Mean Speed"
   },
   list = Object.entries(map).slice(1);
 
@@ -180,6 +182,7 @@ const App = () => {
           <Route path="/about" component={About} />
           <Route path="/construction-zone" component={ConstructionZone} />
           <Route path="/dilemma-zone" component={DilemmaZone} />
+          <Route path="/space-mean" component={SpaceMeanSpeed} />
           <Route path="/horizontal" component={Horizontal} />
           <Route path="/fundamental-diagrams" component={FundamentalDiagrams} />
           <Route path="/flow-and-density" component={TrafficVariables} />
