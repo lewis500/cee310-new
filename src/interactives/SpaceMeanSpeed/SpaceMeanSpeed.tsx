@@ -1,6 +1,10 @@
-import React, { FunctionComponent, useContext, useReducer } from "react";
+import React, {
+  FunctionComponent,
+  useContext,
+  Dispatch,
+  useReducer
+} from "react";
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
 import { useTimer } from "src/hooks/useTimerHook";
 import * as params from "./params";
 import { AppContext, reducer, initialState, ActionTypes as AT } from "./ducks";
@@ -12,13 +16,53 @@ import { withStyles, Theme } from "@material-ui/core/styles";
 import TeX from "@matejmazur/react-katex";
 import "katex/dist/katex.min.css";
 import Slider from "@material-ui/core/Slider";
+import { number } from "prop-types";
 
-const StyleSlider = withStyles((theme: Theme) => ({
-  root: {
-    color: theme.palette.primary.main,
-    marginBottom: "5px"
-  }
-}))(Slider);
+const MySlider = (() => {
+  const StyleSlider = withStyles((theme: Theme) => ({
+    root: {
+      color: theme.palette.primary.main
+    }
+  }))(Slider);
+
+  const sliderLabel = {
+      fontSize: "14px"
+    },
+    sliderContainer = {
+      padding: "5px",
+      width: "100%"
+    };
+  type Props = {
+    keyVar: "kCar" | "vCar" | "time" | "kTruck" | "vTruck";
+    step: number;
+    min: number;
+    max: number;
+    latexstring: string;
+    label: string;
+    value: number;
+  };
+
+  return ({ keyVar, step, min, max, latexstring, label, value }: Props) => {
+    const { dispatch } = useContext(AppContext);
+    return (
+      <div style={sliderContainer}>
+        <div style={sliderLabel}>
+          {label} <TeX math={latexstring} />
+        </div>
+        <StyleSlider
+          component="div"
+          onChange={(e, val: number) =>
+            dispatch({ type: AT.SET_VAR, payload: { key: keyVar, val } })
+          }
+          value={value}
+          step={step}
+          min={min}
+          max={max}
+        />
+      </div>
+    );
+  };
+})();
 
 const Controls = () => {
   const { state, dispatch } = useContext(AppContext),
@@ -31,56 +75,65 @@ const Controls = () => {
   }, play);
 
   return (
-    <Paper elevation={2} className={classes.paper}>
-      <Button
-        component="div"
-        className={classes.button}
-        variant="contained"
-        color="secondary"
-        onClick={() => dispatch({ type: AT.SET_PLAY, payload: !play })}
-      >
-        {play ? "PAUSE" : "PLAY"}
-      </Button>
-      <div className={classes.sliderLabel} style={{ marginTop: 15 }}>
-        density <TeX math="k \; \text{(veh/km)}" />
+    <div className={classes.controlsContainer}>
+      <div>
+        <Button
+          component="div"
+          className={classes.button}
+          variant="contained"
+          color="secondary"
+          onClick={() => dispatch({ type: AT.SET_PLAY, payload: !play })}
+        >
+          {play ? "PAUSE" : "PLAY"}
+        </Button>
       </div>
-      <StyleSlider
-        component="div"
-        onChange={(e, val: number) =>
-          dispatch({ type: AT.SET_VAR, payload: { key: "kCar", val } })
-        }
-        value={state.kCar}
-        step={0.002}
-        min={.04}
-        max={.09}
-      />
-      <div className={classes.sliderLabel} style={{ marginTop: 15 }}>
-        speed <TeX math="v \; \text{(km/hr)}" />
-      </div>
-      <StyleSlider
-        component="div"
-        onChange={(e, val: number) =>
-          dispatch({ type: AT.SET_VAR, payload: { key: "vCar", val } })
-        }
-        value={state.vCar}
+      {/* <MySlider step/> */}
+      <MySlider
         step={0.01}
-        min={3}
+        min={4}
         max={15}
+        keyVar={"vCar"}
+        latexstring=" v_{\text{car}} \; (km/hr)"
+        label="speed"
+        value={state.vCar}
       />
-      <div className={classes.sliderLabel}>
-        time <TeX math="t \; (s)" />
-      </div>
-      <StyleSlider
-        component="div"
-        onChange={(e, val: number) =>
-          dispatch({ type: AT.SET_VAR, payload: { key: "time", val } })
-        }
-        value={state.time}
-        step={params.cycle / 300}
+      <MySlider
+        step={0.002}
+        min={0.02}
+        max={0.12}
+        keyVar={"kCar"}
+        latexstring="k_{\text{car}} \; (veh/km)"
+        label="density car"
+        value={state.kCar}
+      />
+      <MySlider
+        step={0.01}
         min={0}
         max={params.cycle}
+        keyVar={"time"}
+        latexstring="t"
+        label="time"
+        value={state.time}
       />
-    </Paper>
+      <MySlider
+        step={0.002}
+        min={0.02}
+        max={0.12}
+        keyVar={"kTruck"}
+        latexstring="k_{\text{truck}} \; (veh/km)"
+        label="density truck"
+        value={state.kTruck}
+      />
+      <MySlider
+        step={0.002}
+        min={0.02}
+        max={0.12}
+        keyVar={"vTruck"}
+        latexstring="v_{\text{truck}} \; (veh/km)"
+        label="speed truck"
+        value={state.vTruck}
+      />
+    </div>
   );
 };
 
@@ -88,20 +141,12 @@ const EMPTY = {};
 const App: FunctionComponent<{}> = () => {
   const classes = useStyles(EMPTY);
   return (
-    <Grid
-      direction="column"
-      container
-      className={classes.main}
-      alignItems="stretch"
-      spacing={3}
-    >
-      <Grid item className={classes.spaceTimeContainer}>
+    <div className={classes.main}>
+      <div>
         <SpaceTime />
-      </Grid>
-      <Grid item>
-        <Controls />
-      </Grid>
-    </Grid>
+      </div>
+      <Controls />
+    </div>
   );
 };
 
@@ -123,25 +168,18 @@ const useStyles = makeStyles({
     height: "450px"
   },
   main: {
-    maxWidth: "700px",
+    display: "flex",
     margin: "0 auto"
   },
-  sliderLabel: {
-    fontSize: "14px",
-    marginTop: "5px"
-  },
-  paper: {
+  controlsContainer: {
     display: "flex",
-    justifyContent: "center",
+    alignItems: "center",
     flexDirection: "column",
-    padding: "10px 30px"
+    padding: "5px 15px",
+    width: "300px",
+    boxSizing: "border-box"
   },
   button: {
-    margin: "5px"
-  },
-  sliderContainer: {
-    width: "300px",
-    padding: "20px",
-    boxSizing: "border-box"
+    margin: "5px auto"
   }
 });

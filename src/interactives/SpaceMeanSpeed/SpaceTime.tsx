@@ -15,7 +15,6 @@ import * as colors from "@material-ui/core/colors";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { Line } from "./ducks";
 import TexLabel from "src/sharedComponents/TexLabel";
-import useElementSize from "src/hooks/useElementSizeHook";
 import Arrow from "src/sharedComponents/Arrow";
 import "d3-transition";
 import { select } from "d3-selection";
