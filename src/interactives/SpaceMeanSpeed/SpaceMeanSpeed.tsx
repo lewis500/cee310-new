@@ -50,22 +50,22 @@ const Controls = () => {
           dispatch({ type: AT.SET_VAR, payload: { key: "kCar", val } })
         }
         value={state.kCar}
-        step={0.01}
-        min={0}
-        max={1}
+        step={0.002}
+        min={.04}
+        max={.09}
       />
       <div className={classes.sliderLabel} style={{ marginTop: 15 }}>
-        density <TeX math="v \; \text{(km/hr)}" />
+        speed <TeX math="v \; \text{(km/hr)}" />
       </div>
       <StyleSlider
         component="div"
         onChange={(e, val: number) =>
-          dispatch({ type: AT.SET_VAR, payload: { key: "kCar", val } })
+          dispatch({ type: AT.SET_VAR, payload: { key: "vCar", val } })
         }
         value={state.vCar}
         step={0.01}
-        min={0}
-        max={5}
+        min={3}
+        max={15}
       />
       <div className={classes.sliderLabel}>
         time <TeX math="t \; (s)" />

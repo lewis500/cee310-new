@@ -20,8 +20,8 @@ export type State = {
 export const initialState = {
   play: true,
   time: 0,
-  kCar: 0.15,
-  vCar: 15,
+  kCar: 0.07,
+  vCar: 8,
   kTruck: 0.1,
   vTruck: 10
 };
@@ -75,7 +75,7 @@ export const getLinesCar = createSelector<State, number, number, Line[]>(
         c2 = v * params.tCut;
       return lines
         .map(({ x0 }) => x0 + c2)
-        .filter(x => x >= c0 && x <= c2)
+        .filter(x => x >= c0 && x <= c1)
         .sort((a, b) => b - a);
     }
   ),
