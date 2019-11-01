@@ -100,7 +100,7 @@ export default () => {
         min={4}
         max={15}
         keyVar={"vCar"}
-        latexstring=" v_{\text{car}} \; (km/hr)"
+        latexstring=" v_{\text{car}}"
         label="speed car"
         value={state.vCar}
       />
@@ -109,7 +109,7 @@ export default () => {
         min={0.02}
         max={0.12}
         keyVar={"kCar"}
-        latexstring="k_{\text{car}} \; (veh/km)"
+        latexstring="k_{\text{car}}"
         label="density car"
         value={state.kCar}
       />
@@ -118,7 +118,7 @@ export default () => {
         min={4}
         max={15}
         keyVar={"vTruck"}
-        latexstring="v_{\text{truck}} \; (veh/km)"
+        latexstring="v_{\text{truck}} "
         label="speed truck"
         value={state.vTruck}
       />
@@ -127,7 +127,7 @@ export default () => {
         min={0.02}
         max={0.12}
         keyVar={"kTruck"}
-        latexstring="k_{\text{truck}} \; (veh/km)"
+        latexstring="k_{\text{truck}}"
         label="density truck"
         value={state.kTruck}
       />

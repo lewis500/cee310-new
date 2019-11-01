@@ -1,4 +1,4 @@
-export const total = 140;
+export const total = 150;
 export const vf = (60 * 1000) / 3600; /* 60 kph to m/s */
 export const delta = 0.25;
 export const cycle = 25;

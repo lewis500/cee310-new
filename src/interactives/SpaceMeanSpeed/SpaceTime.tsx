@@ -36,7 +36,7 @@ const M = {
   },
   gTranslate = `translate(${M.left},${M.top})`,
   width = 700 - M.left - M.right,
-  height = 450 - M.top - M.bottom,
+  height = 525 - M.top - M.bottom,
   tScale = scaleLinear()
     .range([0, width])
     .domain([0, params.cycle]),
@@ -112,41 +112,82 @@ const Lines = (() => {
   });
 })();
 
-const EMPTY = {};
-
-const axisStyle = {
-  strokeWidth: "2px",
-  color: colors.grey["800"]
-};
-const Axes = (
-  <g>
-    <g id="vaxis">
-      <path
-        d={`M0,0L0,${height}`}
-        fill="none"
-        stroke="black"
-        style={axisStyle}
-        markerStart="url(#arrow)"
-      />
-      <TexLabel x={-10} y={-25} latexstring="x \; \text{(m)}" />
+const Legend = (
+  <g transform={`translate(${20},${height + 6})`}>
+    <g>
+      <rect width="10" height="10" fill={carColor} />
+      <text x={18} y="9">
+        car
+      </text>
     </g>
-    <g transform={`translate(0,${height})`} id="taxis">
-      <path
-        d={`M0,0L${width},0`}
-        fill="none"
-        stroke="black"
-        markerEnd="url(#arrow)"
-        style={axisStyle}
-      />
-      <TexLabel x={width - 15} y={5} latexstring="t \; \text{(s)}" />
+    <g transform="translate(70,0)">
+      <rect width="10" height="10" fill={truckColor} />
+      <text x={18} y="9">
+        truck
+      </text>
     </g>
   </g>
 );
+
+const EMPTY = {};
+
+const Axes = (() => {
+  const axisStyle = {
+    strokeWidth: "2px",
+    color: colors.grey["800"]
+  };
+
+  return (
+    <g>
+      <g id="vaxis">
+        <path
+          d={`M0,0L0,${height}`}
+          fill="none"
+          stroke="black"
+          style={axisStyle}
+          markerStart="url(#arrow)"
+        />
+        <TexLabel x={-10} y={-25} latexstring="x \; \text{(m)}" />
+      </g>
+      <g transform={`translate(0,${height})`} id="taxis">
+        <path
+          d={`M0,0L${width},0`}
+          fill="none"
+          stroke="black"
+          markerEnd="url(#arrow)"
+          style={axisStyle}
+        />
+        <TexLabel x={width - 18} y={5} latexstring="t \; \text{(s)}" />
+      </g>
+    </g>
+  );
+})();
+
 const Road = CE("path", {
   stroke: colors.grey["300"],
   strokeWidth: height - xScale(params.roadWidth),
   d: `M0,0L0,${height}`
 });
+
+const Square = (() => {
+  const styleSquare = {
+    stroke: colors.grey["700"],
+    strokeWidth: "2px",
+    rx: 2,
+    ry: 2,
+    fill: colors.amber["A400"],
+    fillOpacity: 0.15
+  };
+  return (
+    <rect
+      style={styleSquare}
+      width={tScale(params.T)}
+      height={height - xScale(params.X)}
+      y={xScale(params.xCut + params.X)}
+      x={tScale(params.tCut)}
+    />
+  );
+})();
 
 export default () => {
   const { state } = useContext(AppContext),
@@ -161,18 +202,12 @@ export default () => {
         <mask id="myMask3">
           <rect width={tScale(state.time)} height={height} fill="white" />
         </mask>
-        <g  mask="url(#myMask3)">
+        <g mask="url(#myMask3)">
           <Lines lines={ducks.getLinesCar(state)} stroke={carColor} />
           <Lines lines={ducks.getLinesTruck(state)} stroke={truckColor} />
         </g>
         <g id="g-masked" mask="url(#myMask10)">
-          <rect
-            className={classes.cut}
-            width={tScale(params.T)}
-            height={height - xScale(params.X)}
-            y={xScale(params.xCut + params.X)}
-            x={tScale(params.tCut)}
-          />
+          {Square}
           {state.time >= params.tCut && (
             <g>
               {ducks.getKDotsCar(state).map((x, i) => (
@@ -225,6 +260,7 @@ export default () => {
           </g>
         </g>
         {Axes}
+        {Legend}
       </g>
     </svg>
   );
@@ -238,15 +274,6 @@ const useStyles = makeStyles({
       fontFamily: "Puritan, san-serif",
       fontSize: "11px"
     }
-  },
-  cut: {
-    stroke: colors.grey["700"],
-    strokeWidth: "2px",
-    rx: 2,
-    ry: 2,
-    fill: colors.amber["A400"],
-    // opacity: .15
-    fillOpacity: 0.15
   },
   text: {
     textAlign: "center",
