@@ -5,7 +5,9 @@ import React, {
   FC,
   memo,
   useRef,
-  useLayoutEffect
+  useLayoutEffect,
+  createElement,
+  PureComponent
 } from "react";
 import { scaleLinear, ScaleLinear } from "d3-scale";
 import { AppContext } from "./ducks";
@@ -24,6 +26,7 @@ import {
   easeBackOut,
   easeCubicIn
 } from "d3-ease";
+import clsx from "clsx";
 
 const M = {
     top: 25,
@@ -41,60 +44,110 @@ const M = {
     .range([height, 0])
     .domain([0, params.total]),
   carLength = height - xScale(params.carLength),
-  carWidth = height - xScale(params.carWidth);
+  carWidth = height - xScale(params.carWidth),
+  truckLength = height - xScale(params.truckLength),
+  truckWidth = height - xScale(params.truckWidth),
+  carColor = colors.purple.A400,
+  truckColor = colors.green.A700;
 
 type DotProps = {
   t: number;
   x: number;
-  time: number;
-  play: boolean;
   className: string;
+  fill: string;
+};
+const dotStyle = {
+  stroke: "white",
+  strokeWidth: "1px",
+  opacity: 0.65
 };
 
-const Dot = React.memo(({ time, t, x, className, play }: DotProps) => {
+const Dot = memo(({ t, x, className, fill }: DotProps) => {
   const ref = useRef<SVGCircleElement>();
   useLayoutEffect(() => {
-    // if (Math.abs(time - t) < .5)
     select(ref.current)
       .attr("r", 0)
       .transition()
       .ease(easeCubicOut)
-      .duration(320)
+      .duration(250)
       .attr("r", 7)
       .attr("stroke-width", 4)
       .transition()
-      .duration(300)
+      .duration(250)
       .ease(easeCubicOut)
       .attr("stroke-width", 2)
       .attr("r", 4.5);
-    // else select(ref.current).attr("r", 4);
   }, []);
 
   return (
-    <circle ref={ref} className={className} cx={tScale(t)} cy={xScale(x)} />
+    <circle
+      ref={ref}
+      r="4.5px"
+      fill={fill}
+      style={dotStyle}
+      cx={tScale(t)}
+      cy={xScale(x)}
+    />
   );
 });
 
 const Lines = (() => {
   const style = {
     strokeWidth: "1.5px",
-    stroke: colors.lightBlue["A400"],
     strokeDasharray: "1,1"
   };
-  return React.memo(({ lines }: { lines: Line[] }) => (
-    <g id="g-lines">
-      {lines.map(({ x1, x0, t1, t0 }, i) => (
-        <path
-          key={i}
-          style={style}
-          d={`M${tScale(t0)},${xScale(x0)}L${tScale(t1)},${xScale(x1)}`}
-        />
-      ))}
-    </g>
-  ));
+  return React.memo(({ lines, stroke }: { lines: Line[]; stroke: string }) => {
+    return (
+      <g id="g-lines">
+        {lines.map(({ x1, x0, t1, t0 }, i) => (
+          <path
+            key={i}
+            style={style}
+            stroke={stroke}
+            d={`M${tScale(t0)},${xScale(x0)}L${tScale(t1)},${xScale(x1)}`}
+          />
+        ))}
+      </g>
+    );
+  });
 })();
 
 const EMPTY = {};
+
+const axisStyle = {
+  strokeWidth: "2px",
+  color: colors.grey["800"]
+};
+const Axes = (
+  <g>
+    <g id="vaxis">
+      <path
+        d={`M0,0L0,${height}`}
+        fill="none"
+        stroke="black"
+        style={axisStyle}
+        markerStart="url(#arrow)"
+      />
+      <TexLabel x={-10} y={-25} latexstring="x \; \text{(m)}" />
+    </g>
+    <g transform={`translate(0,${height})`} id="taxis">
+      <path
+        d={`M0,0L${width},0`}
+        fill="none"
+        stroke="black"
+        markerEnd="url(#arrow)"
+        style={axisStyle}
+      />
+      <TexLabel x={width - 15} y={5} latexstring="t \; \text{(s)}" />
+    </g>
+  </g>
+);
+const Road = CE("path", {
+  stroke: colors.grey["300"],
+  strokeWidth: height - xScale(params.roadWidth),
+  d: `M0,0L0,${height}`
+});
+
 export default () => {
   const { state } = useContext(AppContext),
     classes = useStyles(EMPTY);
@@ -102,105 +155,82 @@ export default () => {
     <svg className={classes.svg}>
       <Arrow />
       <g transform={gTranslate}>
-        <mask id="myMask2">
+        <mask id="myMask10">
           <rect width={width} height={height} fill="white" />
         </mask>
         <mask id="myMask3">
           <rect width={tScale(state.time)} height={height} fill="white" />
         </mask>
-        <g className={classes.maskedLines} mask="url(#myMask3)">
-          <Lines lines={ducks.getLinesCar(state)}  />
+        <g  mask="url(#myMask3)">
+          <Lines lines={ducks.getLinesCar(state)} stroke={carColor} />
+          <Lines lines={ducks.getLinesTruck(state)} stroke={truckColor} />
         </g>
-        <g id="g-masked" mask="url(#myMask2)">
-          {CE("path", {
-            className: classes.road,
-            strokeWidth: height - xScale(params.roadWidth),
-            d: `M0,0L0,${height}`,
-            transform: `translate(${tScale(state.time)},0)`
-          })}
-          <g id="g-cut">
-            <rect
-              className={classes.cut}
-              width={tScale(params.T)}
-              height={height - xScale(params.X)}
-              y={xScale(params.xCut + params.X)}
-              x={tScale(params.tCut)}
-            />
-            {state.time >= params.tCut &&
-              ducks
-                .getKDotsCar(state)
-                .map((x, i) => (
-                  <Dot
-                    key={i}
-                    x={x}
-                    t={params.tCut}
-                    time={state.time}
-                    play={state.play}
-                    className={classes.kdot}
-                  />
-                ))}
-            {ducks
-              .getQDotsCar(state)
-              .filter(t => t <= state.time)
-              .map((t, i) => (
-                <Dot
-                  key={i}
-                  x={params.xCut}
-                  t={t}
-                  time={state.time}
-                  play={state.play}
-                  className={classes.qdot}
-                />
+        <g id="g-masked" mask="url(#myMask10)">
+          <rect
+            className={classes.cut}
+            width={tScale(params.T)}
+            height={height - xScale(params.X)}
+            y={xScale(params.xCut + params.X)}
+            x={tScale(params.tCut)}
+          />
+          {state.time >= params.tCut && (
+            <g>
+              {ducks.getKDotsCar(state).map((x, i) => (
+                <Dot key={i} x={x} t={params.tCut} fill={carColor} />
               ))}
-          </g>
+              {ducks.getKDotsTruck(state).map((x, i) => (
+                <Dot key={i} x={x} t={params.tCut} fill={truckColor} />
+              ))}
+              {ducks
+                .getQDotsCar(state)
+                .filter(t => t <= state.time)
+                .map((t, i) => (
+                  <Dot key={i} x={params.xCut} t={t} fill={carColor} />
+                ))}
+              {ducks
+                .getQDotsTruck(state)
+                .filter(t => t <= state.time)
+                .map((t, i) => (
+                  <Dot key={i} x={params.xCut} t={t} fill={truckColor} />
+                ))}
+            </g>
+          )}
           <g id="g-lane" transform={`translate(${tScale(state.time)},0)`}>
+            {Road}
             <g id="g-cars">
-              {ducks.getCars(state).map((x, i) => (
+              {ducks.getCars(state).map(({ x, id }) => (
                 <rect
-                  key={i}
-                  className={classes.car}
+                  key={id}
+                  fill={carColor}
                   y={xScale(x) + carLength / 6}
-                  x={-carWidth / 2}
+                  x={4 - carWidth / 2}
                   height={carLength}
                   width={carWidth}
                 />
               ))}
             </g>
+            <g id="g-trucks">
+              {ducks.getTrucks(state).map(({ id, x }) => (
+                <rect
+                  key={id}
+                  className={classes.car}
+                  y={xScale(x) + truckLength / 6}
+                  x={-4 - truckWidth / 2}
+                  height={truckLength}
+                  width={truckWidth}
+                  fill={truckColor}
+                />
+              ))}
+            </g>
           </g>
         </g>
-        <g id="vaxis">
-          <path
-            d={`M0,0L0,${height}`}
-            fill="none"
-            stroke="black"
-            className={classes.axis}
-            markerStart="url(#arrow)"
-          />
-          <TexLabel x={-10} y={-25} latexstring="x \; \text{(m)}" />
-        </g>
-
-        <g transform={`translate(0,${height})`} id="taxis">
-          <path
-            d={`M0,0L${width},0`}
-            fill="none"
-            stroke="black"
-            markerEnd="url(#arrow)"
-            className={classes.axis}
-          />
-          <TexLabel x={width - 15} y={5} latexstring="t \; \text{(s)}" />
-        </g>
+        {Axes}
       </g>
     </svg>
   );
 };
 
 const useStyles = makeStyles({
-  path: {
-    strokeWidth: "4px",
-    fill: "none",
-    stroke: colors.lightBlue["A700"],
-    opacity: 0.8
-  },
   svg: {
     width: width + M.left + M.right,
     height: height + M.top + M.bottom,
@@ -215,33 +245,8 @@ const useStyles = makeStyles({
     rx: 2,
     ry: 2,
     fill: colors.amber["A400"],
+    // opacity: .15
     fillOpacity: 0.15
-  },
-  car: {
-    fill: colors.purple["A200"]
-  },
-  masked: {
-    mask: "url(#myMask2)"
-  },
-  maskedLines: {
-    mask: "url(#myMask3)"
-  },
-  road: {
-    stroke: colors.grey["300"]
-  },
-  axis: {
-    strokeWidth: "2px",
-    color: colors.grey["800"]
-  },
-  qdot: {
-    fill: colors.pink.A400,
-    stroke: "white",
-    strokeWidth: "2px"
-  },
-  kdot: {
-    fill: colors.green.A700,
-    stroke: "white",
-    strokeWidth: "2px"
   },
   text: {
     textAlign: "center",

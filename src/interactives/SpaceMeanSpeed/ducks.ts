@@ -50,63 +50,66 @@ type Action =
     };
 
 export type Line = { x0: number; t0: number; x1: number; t1: number };
-export const getLinesCar = createSelector<State, number, number, Line[]>(
-    [get("kCar"), get("vCar")],
-    (k, v) =>
-      range(-v * k * params.cycle, params.total * k).map(d => ({
-        x0: d / k,
-        t0: 0,
-        x1: d / k + v * params.cycle,
-        t1: params.cycle
-      }))
-  ),
-  getCars = createSelector<State, number, number, Line[], number[]>(
-    [get("vCar"), get("time"), getLinesCar],
-    (v, t, lines) => {
-      const dx = t * v;
-      return lines.map(({ x0 }) => x0 + dx);
-    }
-  ),
-  getKDotsCar = createSelector<State, number, Line[], number[]>(
-    [get("vCar"), getLinesCar],
-    (v, lines) => {
-      const c0 = params.xCut,
-        c1 = c0 + params.X,
-        c2 = v * params.tCut;
-      return lines
-        .map(({ x0 }) => x0 + c2)
-        .filter(x => x >= c0 && x <= c1)
-        .sort((a, b) => b - a);
-    }
-  ),
-  getQDotsCar = createSelector(
-    [get("vCar"), getLinesCar],
-    (v, lines) => {
-      const c1 = params.xCut,
-        c2 = params.tCut,
-        c3 = c2 + params.T;
-      return lines
-        .map(({ x0 }) => (c1 - x0) / v)
-        .filter(t => t >= c2 && t <= c3)
-        .sort((a, b) => a - b);
-    }
-  );
 
-// mo((k: number) => {
-//   const v = vk(k);
-//   return getLines(k)
-//     .map(({ x0 }) => x0 + v * params.tCut)
-//     .filter(x => x >= params.xCut && x <= params.xCut + params.X)
-//     .sort((a, b) => b - a);
-// });
+const getSelectors = (which: "Car" | "Truck") => {
+  const kVar = "k" + which,
+    vVar = "v" + which,
+    getLines = createSelector<State, number, number, Line[]>(
+      [get(kVar), get(vVar)],
+      (k, v) => {
+        return range(-v * k * params.cycle, params.total * k).map(d => ({
+          x0: d / k,
+          t0: 0,
+          x1: d / k + v * params.cycle,
+          t1: params.cycle
+        }));
+      }
+    ),
+    getVehs = createSelector<State, number, number, Line[], number[]>(
+      [get(vVar), get("time"), getLines],
+      (v, t, lines) => {
+        const dx = t * v;
+        return lines.map(({ x0 },id) => ({id: x0, x: x0 + dx}));
+      }
+    ),
+    getKDots = createSelector<State, number, Line[], number[]>(
+      [get(vVar), getLines],
+      (v, lines) => {
+        const c0 = params.xCut,
+          c1 = c0 + params.X,
+          c2 = v * params.tCut;
+        return lines.map(({ x0 }) => x0 + c2).filter(x => x >= c0 && x <= c1).sort((a,b)=>a-b);
+      }
+    ),
+    getQDots = createSelector(
+      [get(vVar), getLines],
+      (v, lines) => {
+        const c1 = params.xCut,
+          c2 = params.tCut,
+          c3 = c2 + params.T;
+        return lines
+          .map(({ x0 }) => (c1 - x0) / v)
+          .filter(t => t >= c2 && t <= c3)
+          .sort((a,b)=>a-b)
+      }
+    );
 
-// export const getQDots = mo((k: number) => {
-//   const v = vk(k);
-//   return getLines(k)
-//     .map(({ x0 }) => (params.xCut - x0) / v)
-//     .filter(t => t >= params.tCut && t <= params.tCut + params.T)
-//     .sort((a, b) => a - b);
-// });
+  return { getLines, getKDots, getQDots, getVehs };
+};
+
+export const {
+  getLines: getLinesCar,
+  getKDots: getKDotsCar,
+  getQDots: getQDotsCar,
+  getVehs: getCars
+} = getSelectors("Car");
+
+export const {
+  getLines: getLinesTruck,
+  getKDots: getKDotsTruck,
+  getQDots: getQDotsTruck,
+  getVehs: getTrucks
+} = getSelectors("Truck");
 
 export const reducer: React.Reducer<State, Action> = (state, action) => {
   switch (action.type) {

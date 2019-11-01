@@ -73,6 +73,7 @@ export const getKDots = mo((k: number) => {
 
 export const getQDots = mo((k: number) => {
   const v = vk(k);
+  console.log('asdf')
   return getLines(k)
     .map(({ x0 }) => (params.xCut - x0) / v)
     .filter(t => t >= params.tCut && t <= params.tCut + params.T)

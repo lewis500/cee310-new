@@ -7,6 +7,8 @@ export const X = total * 0.7;
 export const xCut = total * 0.15;
 export const tCut = cycle * 0.15;
 
-export const carLength = 3;
+export const carLength = 2;
 export const carWidth = 1.5;
-export const roadWidth = 5;
+export const truckLength = 4;
+export const truckWidth = 2;
+export const roadWidth = 7;
