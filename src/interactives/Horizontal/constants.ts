@@ -6,3 +6,4 @@ export const W = 100;
 export const y0 = W*.9;
 export const car = { length: 2, width: 1 };
 export const px = { height: 650, width: 500 };
+// export const LaneWidth = 

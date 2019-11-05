@@ -7,6 +7,8 @@ import { Theme } from "@material-ui/core/styles/createMuiTheme";
 import TeX from "@matejmazur/react-katex";
 import { AppContext, ActionTypes as AT } from "./ducks";
 import Slider from "@material-ui/core/Slider";
+import * as colors from "@material-ui/core/colors";
+import * as ducks from "./ducks";
 const StyleSlider = withStyles((theme: Theme) => ({
   root: {
     color: theme.palette.secondary.main
@@ -17,7 +19,7 @@ const sliderLabel = {
     fontSize: "14px"
   },
   sliderContainer = {
-    padding: "5px",
+    // padding: "5px",
     width: "100%"
   };
 type Props = {
@@ -59,19 +61,28 @@ const MySlider = ({
   );
 };
 
+const width = 300 - 30;
+const height = 15;
+
 const styles = {
   controlsContainer: {
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
     padding: "5px 15px",
-    width: "300px",
+    width: 300,
     boxSizing: "border-box"
   },
   button: {
     margin: "5px auto"
   }
 };
+
+// const Bar = (() => {
+//   const height = 40;
+//   return (
+//   )
+// })();
 
 export default () => {
   const { state, dispatch } = useContext(AppContext),
@@ -84,6 +95,66 @@ export default () => {
 
   return (
     <div style={styles.controlsContainer}>
+      <MySlider
+        step={0.01}
+        min={0.01}
+        max={12}
+        keyVar={"vCar"}
+        latexstring=" v_{\text{car}}"
+        label="speed car"
+        value={state.vCar}
+      />
+      <MySlider
+        step={0.01}
+        min={0.01}
+        max={12}
+        keyVar={"vTruck"}
+        latexstring="v_{\text{truck}} "
+        label="speed truck"
+        value={state.vTruck}
+      />
+      {/* <MySlider
+        step={0.001}
+        min={0.02}
+        max={0.12}
+        keyVar={"kCar"}
+        latexstring="k_{\text{car}}"
+        label="density car"
+        value={state.kCar}
+      /> */}
+      {/* <MySlider
+        step={0.001}
+        min={0.02}
+        max={0.12}
+        keyVar={"kTruck"}
+        latexstring="k_{\text{truck}}"
+        label="density truck"
+        value={state.kTruck}
+      /> */}
+      <div style={{ padding: "11px" }}>
+        <div style={sliderLabel}>
+          Time-mean speed <TeX math="v_t" />
+        </div>
+        <svg width={width} height={height}>
+          <rect
+            height={height}
+            width={(ducks.getAvgSpeeds(state).timeMean / 12) * width}
+            fill={colors.pink.A400}
+          />
+        </svg>
+      </div>
+      <div style={{ padding: "11px" }}>
+        <div style={sliderLabel}>
+          Space-mean speed <TeX math="v_s" />
+        </div>
+        <svg width={width} height={height}>
+          <rect
+            height={height}
+            width={(ducks.getAvgSpeeds(state).spaceMean / 12) * width}
+            fill={colors.pink.A400}
+          />
+        </svg>
+      </div>
       <div>
         <Button
           component="div"
@@ -95,42 +166,6 @@ export default () => {
           {play ? "PAUSE" : "PLAY"}
         </Button>
       </div>
-      <MySlider
-        step={0.01}
-        min={4}
-        max={15}
-        keyVar={"vCar"}
-        latexstring=" v_{\text{car}}"
-        label="speed car"
-        value={state.vCar}
-      />
-      <MySlider
-        step={0.001}
-        min={0.02}
-        max={0.12}
-        keyVar={"kCar"}
-        latexstring="k_{\text{car}}"
-        label="density car"
-        value={state.kCar}
-      />
-      <MySlider
-        step={0.01}
-        min={4}
-        max={15}
-        keyVar={"vTruck"}
-        latexstring="v_{\text{truck}} "
-        label="speed truck"
-        value={state.vTruck}
-      />
-      <MySlider
-        step={0.001}
-        min={0.02}
-        max={0.12}
-        keyVar={"kTruck"}
-        latexstring="k_{\text{truck}}"
-        label="density truck"
-        value={state.kTruck}
-      />
       <MySlider
         step={0.01}
         min={0}

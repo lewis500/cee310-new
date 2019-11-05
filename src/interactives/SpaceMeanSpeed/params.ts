@@ -3,7 +3,7 @@ export const vf = (60 * 1000) / 3600; /* 60 kph to m/s */
 export const delta = 0.25;
 export const cycle = 25;
 export const T = cycle * 0.75;
-export const X = total * 0.7;
+export const X = total * 0.75;
 export const xCut = total * 0.15;
 export const tCut = cycle * 0.15;
 

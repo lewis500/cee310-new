@@ -27,13 +27,6 @@ const jss = create({
 });
 
 const useStyles = makeStyles({
-  "@global": {
-    body: {
-      margin: "0 !important",
-      padding: "0 !important",
-      fontFamily: " 'Puritan', sans-serif"
-    }
-  },
   main: {
     maxWidth: "900px",
     color: colors.grey["800"],
@@ -89,13 +82,13 @@ const App: FunctionComponent<{}> = () => {
     else dispatch({ type: ActionTypes.RESTART });
   }, state.play);
 
-  useInterval(
-    () => {
-      console.log("hello");
-    },
-    10 / params.delta,
-    state.play
-  );
+  // useInterval(
+  //   () => {
+  //     console.log("hello");
+  //   },
+  //   10 / params.delta,
+  //   state.play
+  // );
 
   return (
     <div className={classes.main}>

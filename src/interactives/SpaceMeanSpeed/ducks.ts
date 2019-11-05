@@ -20,10 +20,10 @@ export type State = {
 export const initialState = {
   play: true,
   time: 0,
-  kCar: 0.07,
-  vCar: 8,
+  kCar: 0.1,
+  vCar: 10,
   kTruck: 0.1,
-  vTruck: 10
+  vTruck: 6
 };
 
 export enum ActionTypes {
@@ -57,7 +57,8 @@ const getSelectors = (which: "Car" | "Truck") => {
     getLines = createSelector<State, number, number, Line[]>(
       [get(kVar), get(vVar)],
       (k, v) => {
-        return range(-v * k * params.cycle, params.total * k).map(d => ({
+        // return range(params.total, )
+        return range(params.total * k, -v * k * params.cycle).map(d => ({
           x0: d / k,
           t0: 0,
           x1: d / k + v * params.cycle,
@@ -65,11 +66,17 @@ const getSelectors = (which: "Car" | "Truck") => {
         }));
       }
     ),
-    getVehs = createSelector<State, number, number, Line[], number[]>(
+    getVehs = createSelector<
+      State,
+      number,
+      number,
+      Line[],
+      { id: number; x: number }[]
+    >(
       [get(vVar), get("time"), getLines],
       (v, t, lines) => {
         const dx = t * v;
-        return lines.map(({ x0 },id) => ({id: x0, x: x0 + dx}));
+        return lines.map(({ x0 }) => ({ id: x0, x: x0 + dx }));
       }
     ),
     getKDots = createSelector<State, number, Line[], number[]>(
@@ -78,7 +85,10 @@ const getSelectors = (which: "Car" | "Truck") => {
         const c0 = params.xCut,
           c1 = c0 + params.X,
           c2 = v * params.tCut;
-        return lines.map(({ x0 }) => x0 + c2).filter(x => x >= c0 && x <= c1).sort((a,b)=>a-b);
+        return lines
+          .map(({ x0 }) => x0 + c2)
+          .filter(x => x >= c0 && x <= c1)
+          .sort((a, b) => a - b);
       }
     ),
     getQDots = createSelector(
@@ -90,12 +100,22 @@ const getSelectors = (which: "Car" | "Truck") => {
         return lines
           .map(({ x0 }) => (c1 - x0) / v)
           .filter(t => t >= c2 && t <= c3)
-          .sort((a,b)=>a-b)
+          .sort((a, b) => a - b);
       }
     );
 
   return { getLines, getKDots, getQDots, getVehs };
 };
+
+export const getAvgSpeeds = createSelector(
+  [get("vCar"), get("vTruck"), get("kCar"), get("kTruck")],
+  (vCar, vTruck, kCar, kTruck) => ({
+    timeMean:
+      (vCar * vCar * kCar + vTruck * vTruck * kTruck) /
+      (vCar * kCar + vTruck * kTruck),
+    spaceMean: (vCar * kCar + vTruck * kTruck) / (kCar + kTruck)
+  })
+);
 
 export const {
   getLines: getLinesCar,

@@ -35,8 +35,8 @@ const M = {
     right: 10
   },
   gTranslate = `translate(${M.left},${M.top})`,
-  width = 700 - M.left - M.right,
-  height = 525 - M.top - M.bottom,
+  width = 600 - M.left - M.right,
+  height = 590 - M.top - M.bottom,
   tScale = scaleLinear()
     .range([0, width])
     .domain([0, params.cycle]),
@@ -53,16 +53,17 @@ const M = {
 type DotProps = {
   t: number;
   x: number;
-  className: string;
+  // className: string;
   fill: string;
 };
 const dotStyle = {
-  stroke: "white",
-  strokeWidth: "1px",
-  opacity: 0.65
+  // stroke: "white",
+  // strokeWidth: "1px",
+  opacity: 0.55
 };
 
-const Dot = memo(({ t, x, className, fill }: DotProps) => {
+const Dot = memo(({ t, x, fill }: DotProps) => {
+  // console.log('hello')
   const ref = useRef<SVGCircleElement>();
   useLayoutEffect(() => {
     select(ref.current)
@@ -70,19 +71,19 @@ const Dot = memo(({ t, x, className, fill }: DotProps) => {
       .transition()
       .ease(easeCubicOut)
       .duration(250)
-      .attr("r", 7)
-      .attr("stroke-width", 4)
+      .attr("r", 5)
+      // .attr("stroke-width", 4)
       .transition()
       .duration(250)
       .ease(easeCubicOut)
-      .attr("stroke-width", 2)
-      .attr("r", 4.5);
+      // .attr("stroke-width", 2)
+      .attr("r", 3.5);
   }, []);
 
   return (
     <circle
       ref={ref}
-      r="4.5px"
+      r="4px"
       fill={fill}
       style={dotStyle}
       cx={tScale(t)}
@@ -189,6 +190,12 @@ const Square = (() => {
   );
 })();
 
+const Mask = (
+  <mask id="myMask10">
+    <rect width={width} height={height} fill="white" />
+  </mask>
+);
+
 export default () => {
   const { state } = useContext(AppContext),
     classes = useStyles(EMPTY);
@@ -196,9 +203,7 @@ export default () => {
     <svg className={classes.svg}>
       <Arrow />
       <g transform={gTranslate}>
-        <mask id="myMask10">
-          <rect width={width} height={height} fill="white" />
-        </mask>
+        {Mask}
         <mask id="myMask3">
           <rect width={tScale(state.time)} height={height} fill="white" />
         </mask>
@@ -210,24 +215,32 @@ export default () => {
           {Square}
           {state.time >= params.tCut && (
             <g>
-              {ducks.getKDotsCar(state).map((x, i) => (
-                <Dot key={i} x={x} t={params.tCut} fill={carColor} />
-              ))}
-              {ducks.getKDotsTruck(state).map((x, i) => (
-                <Dot key={i} x={x} t={params.tCut} fill={truckColor} />
-              ))}
-              {ducks
-                .getQDotsCar(state)
-                .filter(t => t <= state.time)
-                .map((t, i) => (
-                  <Dot key={i} x={params.xCut} t={t} fill={carColor} />
+              <g>
+                {ducks.getKDotsCar(state).map((x, i) => (
+                  <Dot key={i} x={x} t={params.tCut} fill={carColor} />
                 ))}
-              {ducks
-                .getQDotsTruck(state)
-                .filter(t => t <= state.time)
-                .map((t, i) => (
-                  <Dot key={i} x={params.xCut} t={t} fill={truckColor} />
+              </g>
+              <g>
+                {ducks.getKDotsTruck(state).map((x, i) => (
+                  <Dot key={i} x={x} t={params.tCut} fill={truckColor} />
                 ))}
+              </g>
+              <g>
+                {ducks
+                  .getQDotsCar(state)
+                  .filter(t => t <= state.time)
+                  .map((t, i) => (
+                    <Dot key={i} x={params.xCut} t={t} fill={carColor} />
+                  ))}
+              </g>
+              <g>
+                {ducks
+                  .getQDotsTruck(state)
+                  .filter(t => t <= state.time)
+                  .map((t, i) => (
+                    <Dot key={i} x={params.xCut} t={t} fill={truckColor} />
+                  ))}
+              </g>
             </g>
           )}
           <g id="g-lane" transform={`translate(${tScale(state.time)},0)`}>
