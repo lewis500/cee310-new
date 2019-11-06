@@ -114,16 +114,16 @@ const Lines = (() => {
 })();
 
 const Legend = (
-  <g transform={`translate(${20},${height + 6})`}>
+  <g transform={`translate(${250},${height + 11})`}>
     <g>
       <rect width="10" height="10" fill={carColor} />
-      <text x={18} y="9">
+      <text x={18} y="10" style={{ fontSize: "16px" }}>
         car
       </text>
     </g>
     <g transform="translate(70,0)">
       <rect width="10" height="10" fill={truckColor} />
-      <text x={18} y="9">
+      <text x={18} y="10" style={{ fontSize: "16px" }}>
         truck
       </text>
     </g>
@@ -163,6 +163,25 @@ const Axes = (() => {
     </g>
   );
 })();
+
+const cutLineStyles = {
+  strokeDasharray: '2,2',
+  stroke: colors.grey['500'],
+  strokeWidth: '2px'
+};
+
+const TLine = (
+  <g transform={`translate(${tScale(params.tCut)},0)`}>
+    <path d={`M0,0L0,${height}`} style={cutLineStyles}/>
+    <TexLabel x={-3} y={height + 3} latexstring="t^*" />
+  </g>
+);
+const XLine = (
+  <g transform={`translate(0,${xScale(params.xCut)})`}>
+    <path d={`M0,0L${width},0`} style={cutLineStyles}/>
+    <TexLabel x={-18} y={-11} latexstring="x^* " />
+  </g>
+);
 
 const Road = CE("path", {
   stroke: colors.grey["300"],
@@ -211,6 +230,8 @@ export default () => {
           <Lines lines={ducks.getLinesCar(state)} stroke={carColor} />
           <Lines lines={ducks.getLinesTruck(state)} stroke={truckColor} />
         </g>
+        {TLine}
+        {XLine}
         <g id="g-masked" mask="url(#myMask10)">
           {Square}
           {state.time >= params.tCut && (
