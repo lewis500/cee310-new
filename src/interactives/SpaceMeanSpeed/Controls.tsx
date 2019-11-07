@@ -155,6 +155,15 @@ export default () => {
           />
         </svg>
       </div>
+      <MySlider
+        step={0.01}
+        min={0}
+        max={params.cycle}
+        keyVar={"time"}
+        latexstring="t"
+        label="time"
+        value={state.time}
+      />
       <div>
         <Button
           component="div"
@@ -166,15 +175,6 @@ export default () => {
           {play ? "PAUSE" : "PLAY"}
         </Button>
       </div>
-      <MySlider
-        step={0.01}
-        min={0}
-        max={params.cycle}
-        keyVar={"time"}
-        latexstring="t"
-        label="time"
-        value={state.time}
-      />
     </div>
   );
 };

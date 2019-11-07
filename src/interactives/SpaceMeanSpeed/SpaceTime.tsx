@@ -1,15 +1,11 @@
 import React, {
   createElement as CE,
   useContext,
-  useMemo,
-  FC,
   memo,
   useRef,
   useLayoutEffect,
-  createElement,
-  PureComponent
 } from "react";
-import { scaleLinear, ScaleLinear } from "d3-scale";
+import { scaleLinear, } from "d3-scale";
 import { AppContext } from "./ducks";
 import * as ducks from "./ducks";
 import * as params from "./params";
@@ -26,7 +22,6 @@ import {
   easeBackOut,
   easeCubicIn
 } from "d3-ease";
-import clsx from "clsx";
 
 const M = {
     top: 25,
