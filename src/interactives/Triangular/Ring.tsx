@@ -11,10 +11,8 @@ import useElementSize from "src/hooks/useElementSizeHook";
 import * as params from "./params";
 import "d3-transition";
 import { select } from "d3-selection";
-import {
-  easeCubicInOut,
-  easeCubicOut,
-} from "d3-ease";
+import { easeCubicInOut, easeCubicOut } from "d3-ease";
+import { scaleLinear } from "d3-scale";
 
 const M = {
     top: 20,
@@ -65,7 +63,10 @@ export default () => {
         <g transform={gTranslate}>
           <g transform={`translate(${width / 2},${width / 2})`}>
             <circle className={classes.road} r={R} />
-            <g>
+              <g transform={`translate(${R + ROAD_WIDTH / 2 + 5},0)`}>
+                <Counter flowCount={state.flowCount} />
+              </g>
+            <g id="g-cars">
               {state.cars.map(car => (
                 <rect
                   key={car.id}
@@ -79,9 +80,6 @@ export default () => {
                 />
               ))}
               <rect y={0} ref={detectorRef} stroke="white" height={4} dy={-2} />
-              <g transform={`translate(${R + ROAD_WIDTH / 2},0)`}>
-                <Counter flowCount={state.flowCount} />
-              </g>
             </g>
           </g>
         </g>
@@ -162,59 +160,25 @@ const useStyles = makeStyles({
   }
 });
 
-const counterStyles = makeStyles({
-  box: {
-    fill: colors.red["A400"],
-    rx: 1,
-    ry: 1
-  }
-});
+const counterStyle = {
+  fill: colors.red["A400"]
+};
+
+const maxHeight = 100;
+const qScale = scaleLinear()
+  .domain([0, 15])
+  .range([0, maxHeight]);
 
 const Counter = ({ flowCount }: { flowCount: number[] }) => {
-  const classes = counterStyles({});
   const ref = useRef<SVGSVGElement>();
   const rectHeight = 8;
   useLayoutEffect(() => {
-    let sel = select(ref.current)
-      .selectAll("rect")
-      .data(flowCount, function(d: number) {
-        return d;
-      });
-
-    sel
-      .exit()
-      .transition("remove")
-      // .ease(easeCubicInOut)
-      .duration(50)
-      .style("fill-opacity", 0)
-      // .on("end", function(d) {
-      //   select(this).remove();
-      // });
-      .remove();
-
-    sel
+    select(ref.current)
       .transition()
-      .duration(80)
-      .attr(
-        "y",
-        (d: number, i: number, k: number[]) => (i - k.length) * (rectHeight + 3)
-      );
-
-    sel
-      .enter()
-      .append("rect")
-      .attr("class", classes.box)
-      .attr("width", rectHeight)
-      .attr("height", rectHeight)
-      .attr("x", 3)
-      .style("fill-opacity", 0.2)
-      .attr("y", 0)
-      .attr("height", 0)
-      .transition(38)
-      // .attr('transform','scale(1)')
-      .attr("height", rectHeight)
-      .attr("y", -rectHeight - 3)
-      .style("fill-opacity", 1);
-  }, [flowCount]);
-  return <g ref={ref}></g>;
+      .duration(100)
+      .ease(easeCubicOut)
+      .attr("y", -qScale(flowCount.length))
+      .attr("height", qScale(flowCount.length));
+  }, [flowCount.length]);
+  return <rect ref={ref} style={counterStyle} width="5px" />;
 };

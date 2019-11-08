@@ -1,18 +1,9 @@
-import React, {
-  FunctionComponent,
-  useContext,
-  useReducer,
-} from "react";
+import React, { FunctionComponent, useContext, useReducer } from "react";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import { useTimer } from "src/hooks/useTimerHook";
 import * as params from "./params";
-import {
-  AppContext,
-  reducer,
-  initialState,
-  ActionTypes as AT
-} from "./ducks";
+import { AppContext, reducer, initialState, ActionTypes as AT } from "./ducks";
 import * as colors from "@material-ui/core/colors";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { withStyles, Theme } from "@material-ui/core/styles";
@@ -24,7 +15,7 @@ import Slider from "@material-ui/core/Slider";
 
 const StyleSlider = withStyles((theme: Theme) => ({
   root: {
-    color: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
     marginBottom: "5px"
   }
 }))(Slider);
@@ -40,7 +31,8 @@ const Controls = () => {
   }, play);
 
   return (
-    <Paper elevation={2} className={classes.paper}>
+    // <div className={classes.paper}>
+    <>
       <Button
         component="div"
         className={classes.button}
@@ -50,18 +42,22 @@ const Controls = () => {
       >
         {play ? "PAUSE" : "PLAY"}
       </Button>
-      <div className={classes.sliderLabel} style={{ marginTop: 15 }}>
-        density <TeX math="k \; \text{(veh/km)}" />
+      <div style={{width: '100%'}}>
+        <div className={classes.sliderLabel} style={{ marginTop: 15 }}>
+          density <TeX math="k \; \text{(veh/km)}" />
+        </div>
+        <StyleSlider
+          component="div"
+          onChange={(e, payload: number) =>
+            dispatch({ type: AT.SET_K, payload })
+          }
+          value={state.k}
+          step={1 / 100}
+          min={0}
+          max={state.kj}
+        />
       </div>
-      <StyleSlider
-        component="div"
-        onChange={(e, payload: number) => dispatch({ type: AT.SET_K, payload })}
-        value={state.k}
-        step={1 / 100}
-        min={0}
-        max={state.kj}
-      />
-    </Paper>
+    </>
   );
 };
 
@@ -75,10 +71,12 @@ const App: FunctionComponent<{}> = () => {
           <Ring />
         </div>
         <div className={classes.qkContainer}>
-          <QK />
+          <div style={{ height: "270px" }}>
+            <QK />
+          </div>
+          <Controls />
         </div>
       </div>
-      <Controls />
     </div>
   );
 };
@@ -106,20 +104,23 @@ const useStyles = makeStyles({
     }
   },
   qkContainer: {
-    height: "250px"
+    // height: "250px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
   },
   row: {
     display: "flex",
     flexDirection: "row"
   },
   ringContainer: {
-    width: "400px"
+    width: "500px"
   },
   main: {
     maxWidth: "1000px",
     margin: "0 auto",
-    display: "flex",
-    flexDirection: "column"
+    display: "flex"
+    // flexDirection: "column"
     // alignItems: "center"
   },
   sliderLabel: {
@@ -128,7 +129,7 @@ const useStyles = makeStyles({
   },
   paper: {
     display: "flex",
-    justifyContent: "center",
+    // justifyContent: "center",
     flexDirection: "column",
     padding: "10px 30px"
   },

@@ -18,7 +18,7 @@ import range from "lodash.range";
 const M = {
     top: 20,
     bottom: 20,
-    left: 20,
+    left: 10,
     right: 10
   },
   gTranslate = `translate(${M.left},${M.top})`;
