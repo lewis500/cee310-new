@@ -27,11 +27,11 @@ const map: { [key: string]: string } = {
     "/": "CEE 310: Transportation Engineering",
     "dilemma-zone": "Dilemma Zones",
     "construction-zone": "Construction Zone",
-    "fundamental-diagrams": "Three Fundamental Diagrams",
-    horizontal: "Horizontal Curves",
-    "flow-and-density": "Flow and Density",
     "space-mean": "Space vs. Time Mean Speed",
-    "fundamental-diagram": "Fundamental Diagram"
+    "fundamental-diagram": "Fundamental Diagram",
+    "fundamental-diagrams": "Three Fundamental Diagrams",
+    // horizontal: "Horizontal Curves",
+    "flow-and-density": "Flow and Density",
   },
   list = Object.entries(map).slice(1);
 
