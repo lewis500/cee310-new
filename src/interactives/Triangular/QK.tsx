@@ -14,12 +14,13 @@ import useElementSize from "src/hooks/useElementSizeHook";
 import useScale from "src/hooks/useScale";
 import Arrow from "src/sharedComponents/Arrow";
 import range from "lodash.range";
+import { scaleLinear } from "d3-scale";
 
 const M = {
     top: 20,
     bottom: 20,
-    left: 10,
-    right: 10
+    left: 20,
+    right: 40
   },
   gTranslate = `translate(${M.left},${M.top})`;
 
@@ -35,13 +36,13 @@ export default () => {
     containerRef = useRef<HTMLDivElement>(),
     { width, height } = marginer(useElementSize(containerRef)),
     classes = useStyles(EMPTY),
-    kScale = useScale([0, width], [0, .5], [width]),
+    kScale = useScale([0, width], [0, .4], [width]),
     qScale = useScale([height, 0], [0, 2/3], [height]),
     qk = getQK(state),
     QKPath = useMemo(() => {
       let d =
         "M" +
-        range(0, state.kj, state.kj / 100)
+        range(0, state.kj + .005, state.kj / 100)
           .map(k => [kScale(k), qScale(qk(k))])
           .join("L");
       return <path className={classes.path} d={d} />;
@@ -71,8 +72,8 @@ export default () => {
               className={classes.axis}
               markerStart="url(#arrow)"
             />
-            {/* <TexLabel x={qScale(state.qMax) - 12} x={-15} latexstring="q_0" /> */}
-            <TexLabel x={-10} y={-25} latexstring="q \; \text{veh/s}" />
+            <TexLabel y={qScale(state.k0 * state.vf) - 9} x={-15} latexstring="q_0" />
+            <TexLabel x={-20} y={-25} latexstring="q \; \text{(veh/s)}" />
           </g>
 
           <g transform={`translate(0,${height})`} id="g-kaxis">
@@ -89,8 +90,13 @@ export default () => {
               latexstring="k_0"
             />
             <TexLabel
-              x={width - 70}
-              y={5}
+              x={kScale(state.kj)}
+              y={0}
+              latexstring="k_j"
+            />
+            <TexLabel
+              x={width - 40}
+              y={-24}
               latexstring="k \; \text{(veh/km)}"
             />
           </g>
@@ -102,7 +108,7 @@ export default () => {
 
 const useStyles = makeStyles({
   dot: {
-    fill: colors.pink["500"],
+    fill: colors.pink["A400"],
     stroke: "white",
     strokeWidth: "2px"
   },

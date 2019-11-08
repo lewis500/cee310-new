@@ -120,7 +120,7 @@ export const reducer: React.Reducer<State, Action> = (state, action) => {
         : state.flowCount;
       let removal = false;
       for (let d of newFlowCount) {
-        if (d < time - params.flowDuration) removal = true;
+        if (d <= time - params.flowDuration) removal = true;
       }
       if (removal)
         newFlowCount = newFlowCount.filter(d => d > time - params.flowDuration);

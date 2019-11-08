@@ -71,7 +71,7 @@ const App: FunctionComponent<{}> = () => {
           <Ring />
         </div>
         <div className={classes.qkContainer}>
-          <div style={{ height: "270px" }}>
+          <div style={{ height: "270px", width: '100%' }}>
             <QK />
           </div>
           <Controls />
@@ -105,6 +105,7 @@ const useStyles = makeStyles({
   },
   qkContainer: {
     // height: "250px",
+    width: '420px',
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
@@ -117,7 +118,7 @@ const useStyles = makeStyles({
     width: "500px"
   },
   main: {
-    maxWidth: "1000px",
+    // maxWidth: "1000px",
     margin: "0 auto",
     display: "flex"
     // flexDirection: "column"

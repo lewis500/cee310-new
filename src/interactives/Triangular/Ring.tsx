@@ -13,6 +13,7 @@ import "d3-transition";
 import { select } from "d3-selection";
 import { easeCubicInOut, easeCubicOut } from "d3-ease";
 import { scaleLinear } from "d3-scale";
+// import {qScale} from './QK';
 
 const M = {
     top: 20,
@@ -49,7 +50,7 @@ export default () => {
       .duration(100)
       .attr("x", R - ROAD_WIDTH / 2 - 2.5)
       .attr("width", ROAD_WIDTH + 5)
-      .attr("fill", colors.red["A400"])
+      .attr("fill", colors.pink["A400"])
       .transition()
       .duration(200)
       .ease(easeCubicOut)
@@ -63,9 +64,9 @@ export default () => {
         <g transform={gTranslate}>
           <g transform={`translate(${width / 2},${width / 2})`}>
             <circle className={classes.road} r={R} />
-              <g transform={`translate(${R + ROAD_WIDTH / 2 + 5},0)`}>
-                <Counter flowCount={state.flowCount} />
-              </g>
+            <g transform={`translate(${R + ROAD_WIDTH / 2 + 5},0)`}>
+              <Counter flow={state.flowCount.length} />
+            </g>
             <g id="g-cars">
               {state.cars.map(car => (
                 <rect
@@ -90,7 +91,7 @@ export default () => {
 
 const useStyles = makeStyles({
   dot: {
-    fill: colors.pink["500"],
+    fill: colors.pink["A400"],
     stroke: "white",
     strokeWidth: "2px"
   },
@@ -161,15 +162,15 @@ const useStyles = makeStyles({
 });
 
 const counterStyle = {
-  fill: colors.red["A400"]
+  fill: colors.pink["500"]
 };
 
 const maxHeight = 100;
 const qScale = scaleLinear()
-  .domain([0, 15])
+  .domain([0, 8.6])
   .range([0, maxHeight]);
 
-const Counter = ({ flowCount }: { flowCount: number[] }) => {
+const Counter = ({ flow }: { flow: number }) => {
   const ref = useRef<SVGSVGElement>();
   const rectHeight = 8;
   useLayoutEffect(() => {
@@ -177,8 +178,8 @@ const Counter = ({ flowCount }: { flowCount: number[] }) => {
       .transition()
       .duration(100)
       .ease(easeCubicOut)
-      .attr("y", -qScale(flowCount.length))
-      .attr("height", qScale(flowCount.length));
-  }, [flowCount.length]);
+      .attr("y", -qScale(flow))
+      .attr("height", qScale(flow));
+  }, [flow]);
   return <rect ref={ref} style={counterStyle} width="5px" />;
 };
