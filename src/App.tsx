@@ -21,12 +21,12 @@ import Triangular from "./interactives/Triangular";
 // @ts-ignore
 import Negin from "./img/negin-cropped.jpg";
 // @ts-ignore
-import Lewis from "./img/lewis.jpg";
+import Lewis from "./img/lewis-cropped.jpeg";
 //@ts-ignore
 import Jesus from "./img/jesus.png";
 
 const map: { [key: string]: string } = {
-    "/": "CEE 310: Transportation Engineering",
+    "/": "Traffic Vis",
     "dilemma-zone": "Dilemma Zones",
     "construction-zone": "Construction Zone",
     "space-mean": "Space vs. Time Mean Speed",
@@ -42,10 +42,10 @@ const Home = () => (
     <div>
       Welcome! This site hosts interactive visualizations that help students
       understand concepts from <em>CEE 310: Transportation Engineering,</em> an
-      introductory course at University of Illinois at Urbana-Champaign course.
+      introductory course at University of Illinois at Urbana-Champaign.
       Each visualization has a short video that you can toggle to explain what's
-      going on. If you teach traffic flow theory, feel free to use the
-      interactives in your class!
+      going on. If you teach transportation engineering, feel free to use the
+      interactives in your class.
     </div>
     <div>
       <ul>
@@ -55,6 +55,9 @@ const Home = () => (
           </Link>
         ))}
       </ul>
+    </div>
+    <div>
+          Note: <a href="http://lewislehe.com" target="__blank">Dr. Lewis Lehe</a> is looking for Ph.D. and M.S. students to start Fall 2020 at UIUC. His research focuses on downtown traffic and transportation economics. Programming skills, a good math background and an interest in solving urban traffic are required.
     </div>
   </div>
 );
@@ -181,6 +184,7 @@ const titleLink = { paddingRight: "15px" };
 const getTitle = () => {
   const location = useLocation().pathname.slice(1);
   if (map.hasOwnProperty(location)) return map[location];
+
   return map["/"];
 };
 
@@ -190,7 +194,7 @@ const App = () => {
     <>
       <div className={classes.title}>
         <div>{getTitle()}</div>
-        <div style={{ flex: "1 1 auto" }}></div>
+        <div style={{ flex: "1 1 auto" }} />
         <div style={titleLink}>
           <Link to="/">home</Link>
         </div>
