@@ -15,8 +15,8 @@ import FundamentalDiagrams from "src/interactives/FundamentalDiagrams";
 import TrafficVariables from "./interactives/TrafficVariables";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import SpaceMeanSpeed from './interactives/SpaceMeanSpeed';
-import Triangular from './interactives/Triangular';
+import SpaceMeanSpeed from "./interactives/SpaceMeanSpeed";
+import Triangular from "./interactives/Triangular";
 
 // @ts-ignore
 import Negin from "./img/negin-cropped.jpg";
@@ -29,9 +29,9 @@ const map: { [key: string]: string } = {
     "construction-zone": "Construction Zone",
     "space-mean": "Space vs. Time Mean Speed",
     "fundamental-diagram": "Fundamental Diagram",
-    "fundamental-diagrams": "Three Fundamental Diagrams",
+    "fundamental-diagrams": "Three Fundamental Diagrams"
     // horizontal: "Horizontal Curves",
-    "flow-and-density": "Flow and Density",
+    // "flow-and-density": "Flow and Density",
   },
   list = Object.entries(map).slice(1);
 
@@ -41,10 +41,7 @@ const Home = () => (
       Welcome to the homepage for the course{" "}
       <em>CEE 310: Transportation Engineering</em> at University of Illinois at
       Urbana-Champaign. This site links to interactive visualizations that help
-      students understand key concepts from the course. Each visualization has a
-      short video that you can toggle to explain what's going on. This semester
-      (Fall 2020) is the first time we're incorporating the visualizations, so
-      it's a rough draft.
+      students understand key concepts from the course. Each visualization has a  short video that you can toggle to explain what's going on.
     </div>
     <div>
       <ul>

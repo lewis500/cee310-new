@@ -12,6 +12,9 @@ import QK from "./QK";
 import TeX from "@matejmazur/react-katex";
 import "katex/dist/katex.min.css";
 import Slider from "@material-ui/core/Slider";
+import Collapse from "@material-ui/core/Collapse";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 const StyleSlider = withStyles((theme: Theme) => ({
   root: {
@@ -42,7 +45,7 @@ const Controls = () => {
       >
         {play ? "PAUSE" : "PLAY"}
       </Button>
-      <div style={{width: '100%'}}>
+      <div style={{ width: "100%" }}>
         <div className={classes.sliderLabel} style={{ marginTop: 15 }}>
           density <TeX math="k \; \text{(veh/km)}" />
         </div>
@@ -63,15 +66,38 @@ const Controls = () => {
 
 const EMPTY = {};
 const App: FunctionComponent<{}> = () => {
-  const classes = useStyles(EMPTY);
+  const classes = useStyles(EMPTY),
+    [checked, setChecked] = React.useState(false),
+    handleChange = () => {
+      setChecked(prev => !prev);
+    };
   return (
-    <div className={classes.main}>
-      <div className={classes.row}>
+    <div className={classes.container}>
+      <FormControlLabel
+        control={<Switch checked={checked} onChange={handleChange} />}
+        label="show video"
+      />
+      <Collapse in={checked}>
+        <Paper elevation={2}>
+          <div className={classes.videoContainer}>
+            <iframe
+              width="640"
+              height="360"
+              src="https://www.loom.com/embed/c6635b0e86344b5dbf28f23fd1c074d3"
+              frameborder="0"
+              webkitallowfullscreen
+              mozallowfullscreen
+              allowfullscreen
+            />
+          </div>
+        </Paper>
+      </Collapse>
+      <div className={classes.main}>
         <div className={classes.ringContainer}>
           <Ring />
         </div>
         <div className={classes.qkContainer}>
-          <div style={{ height: "270px", width: '100%' }}>
+          <div style={{ height: "270px", width: "100%" }}>
             <QK />
           </div>
           <Controls />
@@ -92,20 +118,9 @@ export default () => {
 };
 
 const useStyles = makeStyles({
-  "@global": {
-    body: {
-      margin: "0 !important",
-      padding: "0 !important",
-      fontFamily: " 'Puritan', sans-serif",
-      color: colors.grey["800"]
-    },
-    ".katex": {
-      fontSize: "1em"
-    }
-  },
   qkContainer: {
     // height: "250px",
-    width: '420px',
+    width: "420px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
@@ -118,11 +133,8 @@ const useStyles = makeStyles({
     width: "500px"
   },
   main: {
-    // maxWidth: "1000px",
     margin: "0 auto",
     display: "flex"
-    // flexDirection: "column"
-    // alignItems: "center"
   },
   sliderLabel: {
     fontSize: "14px",
@@ -137,9 +149,10 @@ const useStyles = makeStyles({
   button: {
     margin: "5px"
   },
-  sliderContainer: {
-    width: "300px",
-    padding: "20px",
-    boxSizing: "border-box"
-  }
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  videoContainer: { width: 640, height: 360 }
 });
