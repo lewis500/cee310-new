@@ -22,6 +22,8 @@ import Triangular from "./interactives/Triangular";
 import Negin from "./img/negin-cropped.jpg";
 // @ts-ignore
 import Lewis from "./img/lewis.jpg";
+//@ts-ignore
+import Jesus from "./img/jesus.png";
 
 const map: { [key: string]: string } = {
     "/": "CEE 310: Transportation Engineering",
@@ -38,10 +40,12 @@ const map: { [key: string]: string } = {
 const Home = () => (
   <div style={{ maxWidth: "700px", margin: "0 auto", lineHeight: "1.5em" }}>
     <div>
-      Welcome to the homepage for the course{" "}
-      <em>CEE 310: Transportation Engineering</em> at University of Illinois at
-      Urbana-Champaign. This site links to interactive visualizations that help
-      students understand key concepts from the course. Each visualization has a  short video that you can toggle to explain what's going on.
+      Welcome! This site hosts interactive visualizations that help students
+      understand concepts from <em>CEE 310: Transportation Engineering,</em> an
+      introductory course at University of Illinois at Urbana-Champaign course.
+      Each visualization has a short video that you can toggle to explain what's
+      going on. If you teach traffic flow theory, feel free to use the
+      interactives in your class!
     </div>
     <div>
       <ul>
@@ -116,9 +120,15 @@ const About = (() => {
             transportation systems group of the Department of Civil and
             Environmental Engineering at UIUC. He earned a PhD and MS in CEE at
             UC Berkeley and an MA in Transport Economics at University of Leeds.
-            His research focuses on the economics of downtown traffic.
+            His research focuses on the economics of downtown traffic. In a
+            previous life, he made visualizations with{" "}
+            <a href="https://www.google.com/search?client=firefox-b-1-d&q=vicapow">
+              @vicapow
+            </a>{" "}
+            under the <a href="http://setosa.io">Setosa</a> name.
             <br />
-            <a href="http://lewislehe.com">Home page</a>
+            <a href="http://lewislehe.com">Home page</a> (includes other
+            visualizations)
           </div>
         </div>
         <div className={classes.person}>
@@ -136,6 +146,21 @@ const About = (() => {
             <a href="https://nalemazkoor.wixsite.com/negin">Home page</a>
           </div>
         </div>
+        <div className={classes.person}>
+          <div className={classes.imgContainer}>
+            <img src={Jesus} />
+          </div>
+          <div>
+            Jesus holds an M.S. in Civil engineering and is currently pursuing
+            Ph.D. in the Department of Civil and Environmental Engineering at
+            the University of Illinois, Urbana-Champaign (UIUC). He is working
+            as a research assistant in projects related to transportation
+            systems evaluation, transit networks, intelligent transportation
+            systems, highway safety, and previously traffic safety related to
+            the application of Vision Zero principles. He attended to Valparaiso
+            University prior to joining UIUC in 2017.
+          </div>
+        </div>
         <div
           style={{
             fontSize: "24px",
@@ -144,7 +169,7 @@ const About = (() => {
         >
           Tools
         </div>
-        <div>
+        <div style={{ marginBottom: "24px" }}>
           The site was created using React, d3, Material UI, TypeScript,
           Webpack, babel and Netlify.
         </div>
