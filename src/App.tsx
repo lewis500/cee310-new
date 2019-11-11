@@ -116,7 +116,7 @@ const About = (() => {
         </div>
         <div className={classes.person}>
           <div className={classes.imgContainer}>
-            <img src={Lewis} />
+            <img src={Lewis}  width="200px" />
           </div>
           <div>
             Since Fall 2018, Lewis Lehe has been assistant professor in the
@@ -136,7 +136,7 @@ const About = (() => {
         </div>
         <div className={classes.person}>
           <div className={classes.imgContainer}>
-            <img src={Negin} />
+            <img src={Negin} width="200px"/>
           </div>
           <div>
             In Summer 2019, Negin Alemazkoor earned her PhD in Civil Engineering
@@ -151,7 +151,7 @@ const About = (() => {
         </div>
         <div className={classes.person}>
           <div className={classes.imgContainer}>
-            <img src={Jesus} />
+            <img src={Jesus} width="200px" />
           </div>
           <div>
             Jesus holds an M.S. in Civil engineering and is currently pursuing
