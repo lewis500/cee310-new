@@ -17,6 +17,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import SpaceMeanSpeed from "./interactives/SpaceMeanSpeed";
 import Triangular from "./interactives/Triangular";
+import Tri2 from './interactives/Tri2';
 
 // @ts-ignore
 import Negin from "./img/negin-cropped.jpg";
@@ -215,6 +216,7 @@ const App = () => {
           <Route path="/fundamental-diagram" component={Triangular} />
           <Route path="/fundamental-diagrams" component={FundamentalDiagrams} />
           <Route path="/flow-and-density" component={TrafficVariables} />
+          <Route path="/triangular2" component={Tri2} />
           <Route path="/" component={Home} />
         </Switch>
       </div>
