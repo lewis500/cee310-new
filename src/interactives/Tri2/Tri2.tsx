@@ -54,8 +54,8 @@ const Controls = () => {
         onChange={(e, payload: number) => dispatch({ type: AT.SET_K, payload })}
         value={state.k}
         step={1 / 100}
-        min={0}
-        max={0.5}
+        min={.05}
+        max={0.4}
       />
       <div className={classes.sliderLabel}>
         speed <TeX math="v_f \; \text{(m/s)}" />
@@ -67,7 +67,7 @@ const Controls = () => {
         }
         value={state.vf}
         step={0.01}
-        min={2}
+        min={.05}
         max={7}
       />
       <div className={classes.sliderLabel}>
@@ -79,9 +79,9 @@ const Controls = () => {
           dispatch({ type: AT.SET_K0, payload })
         }
         value={state.k0}
-        step={0.003}
+        step={0.01}
         min={0.05}
-        max={0.5}
+        max={0.4}
       />
       <div className={classes.sliderLabel}>
         jam density <TeX math="k_{j} \; \text{(veh/km)}" />
@@ -92,9 +92,9 @@ const Controls = () => {
           dispatch({ type: AT.SET_KJ, payload })
         }
         value={state.kj}
-        step={0.003}
-        min={0.1}
-        max={0.5}
+        step={0.01}
+        min={0.01}
+        max={0.4}
       />
       </div>
     </>

@@ -49,7 +49,6 @@ export default () => {
         ]
           .map(([k, q]) => [kScale(k), qScale(q)])
           .join("L");
-      console.log(d);
 
       // range(0, state.kj + .005, state.kj / 200 )
       //   .map(k => [kScale(k), qScale(qk(k))])
