@@ -4,13 +4,13 @@ import React, {
   useReducer,
   useCallback
 } from "react";
-import Button from "@material-ui/core/Button";
-import { colors } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
+import Button from "@mui/material/Button";
+import { colors } from "@mui/material";
+import Paper from "@mui/material/Paper";
 import {useTimer, useInterval } from "src/hooks/useTimerHook";
 import Vis from "./Vis";
 import * as params from "./constants";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 import {
   AppContext,
   reducer,
@@ -20,7 +20,7 @@ import {
 } from "./ducks";
 import Sliders from "./Sliders";
 import { create } from "jss";
-import { StylesProvider, jssPreset } from "@material-ui/styles";
+import { StylesProvider, jssPreset } from "@mui/styles";
 import extender from "jss-plugin-extend";
 const jss = create({
   plugins: [...jssPreset().plugins, extender()]

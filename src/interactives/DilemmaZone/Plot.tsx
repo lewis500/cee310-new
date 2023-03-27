@@ -6,14 +6,14 @@ import React, {
   useContext
 } from "react";
 import { params, widths } from "./constants";
-import { makeStyles, withStyles } from "@material-ui/styles";
+import { makeStyles, withStyles } from "@mui/styles";
 import "d3-selection";
 import { select } from "d3-selection";
 import { axisLeft, axisBottom } from "d3-axis";
 import { AppContext } from "./ducks";
 import { scaleLinear } from "d3-scale";
 import memoizeone from "memoize-one";
-import * as colors from "@material-ui/core/colors";
+import * as colors from "@mui/material/colors";
 import { drag } from "d3-drag";
 import TeX from "@matejmazur/react-katex";
 import "katex/dist/katex.min.css";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import * as colors from "@material-ui/core/colors";
-import makeStyles from "@material-ui/styles/makeStyles";
+import * as colors from "@mui/material/colors";
+import makeStyles from "@mui/styles/makeStyles";
 import {
   BrowserRouter,
   Route,
@@ -14,8 +14,8 @@ import DilemmaZone from "src/interactives/DilemmaZone";
 import Horizontal from "src/interactives/Horizontal";
 import FundamentalDiagrams from "src/interactives/FundamentalDiagrams";
 import TrafficVariables from "./interactives/TrafficVariables";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import SpaceMeanSpeed from "./interactives/SpaceMeanSpeed";
 import Triangular from "./interactives/Triangular";
 import Tri2 from "./interactives/Tri2";

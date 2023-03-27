@@ -7,8 +7,8 @@ import simplify from "simplify-js";
 import { history } from "./ducks";
 import Road from "./Road";
 import * as ducks from "./ducks";
-import { makeStyles, createStyles } from "@material-ui/styles";
-import * as colors from "@material-ui/core/colors";
+import { makeStyles, createStyles } from "@mui/styles";
+import * as colors from "@mui/material/colors";
 import useScale from "src/hooks/useScale";
 import TexLabel from "src/sharedComponents/TexLabel";
 

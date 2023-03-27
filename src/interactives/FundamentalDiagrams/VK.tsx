@@ -7,8 +7,8 @@ import React, {
 import { scaleLinear, ScaleLinear } from "d3-scale";
 import { AppContext, getRange, vkMap, VKType } from "./ducks";
 import * as params from "./constants";
-import * as colors from "@material-ui/core/colors";
-import makeStyles from "@material-ui/styles/makeStyles";
+import * as colors from "@mui/material/colors";
+import makeStyles from "@mui/styles/makeStyles";
 import mo from "memoize-one";
 import TexLabel from "src/sharedComponents/TexLabel";
 

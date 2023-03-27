@@ -1,9 +1,9 @@
 import React, { createElement as CE, FunctionComponent } from "react";
 import { widths } from "./constants";
-// import { colors } from "@material-ui/core";
-import * as colors from "@material-ui/core/colors";
+// import { colors } from "@mui/material";
+import * as colors from "@mui/material/colors";
 import { scaleLinear } from "d3-scale";
-import { makeStyles, withStyles } from "@material-ui/styles";
+import { makeStyles, withStyles } from "@mui/styles";
 import TeX from "@matejmazur/react-katex";
 const EMPTY = {};
 const useStyles = makeStyles({

@@ -3,8 +3,8 @@ import { AppContext } from "./ducks";
 import * as params from "./constants";
 import { delta } from "./constants";
 import { history, xOfT2, getBlocked } from "./ducks";
-import { colors } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { colors } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import useScale from "src/hooks/useScale";
 
 export default ({ width, height }: { width: number; height: number }) => {

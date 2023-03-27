@@ -1,18 +1,18 @@
 import React, { useContext, useReducer } from "react";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import { useTimer } from "src/hooks/useTimerHook";
 import * as params from "./constants";
 import { AppContext, reducer, initialState } from "./ducks";
 import TimeSpace from "./TimeSpace";
-import * as colors from "@material-ui/core/colors";
+import * as colors from "@mui/material/colors";
 import Cumulative from "./Cumulative";
-import Slider from "@material-ui/core/Slider";
+import Slider from "@mui/material/Slider";
 import TeX from "@matejmazur/react-katex";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Collapse from "@material-ui/core/Collapse";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
-import Paper from "@material-ui/core/Paper";
+import { makeStyles, withStyles } from "@mui/styles";
+import Collapse from "@mui/material/Collapse";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import Paper from "@mui/material/Paper";
 import QK from "./QK";
 
 const StyleSlider = withStyles(() => ({

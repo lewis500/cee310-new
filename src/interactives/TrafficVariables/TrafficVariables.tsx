@@ -3,8 +3,8 @@ import React, {
   useContext,
   useReducer,
 } from "react";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
 import { useTimer } from "src/hooks/useTimerHook";
 import * as params from "./params";
 import {
@@ -13,15 +13,15 @@ import {
   initialState,
   ActionTypes as AT
 } from "./ducks";
-import * as colors from "@material-ui/core/colors";
-import makeStyles from "@material-ui/styles/makeStyles";
-import { Grid } from "@material-ui/core";
+import * as colors from "@mui/material/colors";
+import makeStyles from "@mui/styles/makeStyles";
+import { Grid } from "@mui/material";
 import SpaceTime from "./SpaceTime";
 import QK from "./QK";
-import { withStyles, Theme } from "@material-ui/core/styles";
+import { withStyles, Theme } from "@mui/styles";
 import TeX from "@matejmazur/react-katex";
 import "katex/dist/katex.min.css";
-import Slider from "@material-ui/core/Slider";
+import Slider from "@mui/material/Slider";
 
 const StyleSlider = withStyles((theme: Theme) => ({
   root: {

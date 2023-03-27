@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import { useTimer } from "src/hooks/useTimerHook";
 import * as params from "./params";
-import withStyles from "@material-ui/styles/withStyles";
-import { Theme } from "@material-ui/core/styles/createMuiTheme";
+import withStyles from "@mui/styles/withStyles";
+import { Theme } from "@mui/styles/createMuiTheme";
 import TeX from "@matejmazur/react-katex";
 import { AppContext, ActionTypes as AT } from "./ducks";
-import Slider from "@material-ui/core/Slider";
-import * as colors from "@material-ui/core/colors";
+import Slider from "@mui/material/Slider";
+import * as colors from "@mui/material/colors";
 import * as ducks from "./ducks";
 const StyleSlider = withStyles((theme: Theme) => ({
   root: {

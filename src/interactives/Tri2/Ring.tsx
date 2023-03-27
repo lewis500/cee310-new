@@ -5,8 +5,8 @@ import React, {
   useLayoutEffect
 } from "react";
 import { AppContext } from "./ducks";
-import * as colors from "@material-ui/core/colors";
-import makeStyles from "@material-ui/styles/makeStyles";
+import * as colors from "@mui/material/colors";
+import makeStyles from "@mui/styles/makeStyles";
 import useElementSize from "src/hooks/useElementSizeHook";
 import * as params from "./params";
 import "d3-transition";

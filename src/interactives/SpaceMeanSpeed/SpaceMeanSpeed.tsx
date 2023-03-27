@@ -1,12 +1,12 @@
 import React, { useReducer } from "react";
 import { AppContext, reducer, initialState } from "./ducks";
-import makeStyles from "@material-ui/styles/makeStyles";
+import makeStyles from "@mui/styles/makeStyles";
 import SpaceTime from "./SpaceTime";
 import Controls from "./Controls";
-import Paper from "@material-ui/core/Paper";
-import Collapse from "@material-ui/core/Collapse";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
+import Paper from "@mui/material/Paper";
+import Collapse from "@mui/material/Collapse";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 const EMPTY = {};
 const App = () => {
   const classes = useStyles(EMPTY);

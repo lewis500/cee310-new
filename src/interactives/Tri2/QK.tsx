@@ -7,8 +7,8 @@ import React, {
   useRef
 } from "react";
 import { AppContext, getQK } from "./ducks";
-import * as colors from "@material-ui/core/colors";
-import makeStyles from "@material-ui/styles/makeStyles";
+import * as colors from "@mui/material/colors";
+import makeStyles from "@mui/styles/makeStyles";
 import TexLabel from "src/sharedComponents/TexLabel";
 import useElementSize from "src/hooks/useElementSizeHook";
 import useScale from "src/hooks/useScale";

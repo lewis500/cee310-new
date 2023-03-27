@@ -4,10 +4,10 @@ import React, {
   useReducer,
   useCallback
 } from "react";
-import Button from "@material-ui/core/Button";
-// import Paper from "@material-ui/core/Paper";
-import * as colors from "@material-ui/core/colors";
-import makeStyles from "@material-ui/styles/makeStyles";
+import Button from "@mui/material/Button";
+// import Paper from "@mui/material/Paper";
+import * as colors from "@mui/material/colors";
+import makeStyles from "@mui/styles/makeStyles";
 import { useTimer } from "src/hooks/useTimerHook";
 import * as params from "./constants";
 import {
@@ -20,9 +20,9 @@ import {
 } from "./ducks";
 import VK from "./VK";
 import QK from "./QK";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 
 const Buttons = React.memo(
   ({
