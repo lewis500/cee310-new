@@ -9,6 +9,9 @@
     "dev": "webpack serve",
     "build": "webpack --color --progress --config webpack.config.production.js"
   },
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "dependencies": {
     "@babel/preset-env": "^7.20.2",
     "@emotion/react": "^11.10.6",
