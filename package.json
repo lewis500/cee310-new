@@ -35,7 +35,6 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.9.0",
     "reselect": "^4.1.7",
-    "simpify-js": "^1.0.0",
     "simplify-js": "^1.2.4"
   },
   "devDependencies": {

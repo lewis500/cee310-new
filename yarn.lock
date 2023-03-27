@@ -3940,11 +3940,6 @@ signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-simpify-js@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/simpify-js/-/simpify-js-1.0.0.tgz#7a3f7793d9ee271fc6f2d10c1e35b2e2e628ea8d"
-  integrity sha512-gys9ZbFb7lMvTXHHDWNlo1uwwKuiP/ENIc0T8pBF5+FTB4jqOcxPfHYHdZOz/lWCT1dqPSux/iZesCdnAZAIGA==
-
 simplify-js@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/simplify-js/-/simplify-js-1.2.4.tgz#7aab22d6df547ffd40ef0761ccd82b75287d45c7"
