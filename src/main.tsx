@@ -16,20 +16,9 @@ const theme = createTheme({
   },
 });
 
-const Wrapped = ()=>{
-  return (
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
-  );
-}
-
 const root = createRoot(document.getElementById("root"));
-root.render(<Wrapped/>);
-
-// render(
-//   <ThemeProvider theme={theme}>
-//     <App />
-//   </ThemeProvider>,
-//   container
-// );
+root.render(
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>
+);
