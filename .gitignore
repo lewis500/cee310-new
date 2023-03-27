@@ -2,6 +2,9 @@ node_modules/
 .DS_store
 *.log
 flow-typed/
+public/
 # public/
 TODO.md
 TODO
+yarn.lock
+traffic-vis.code-workspace

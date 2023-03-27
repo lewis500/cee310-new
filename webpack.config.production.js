@@ -83,24 +83,6 @@ module.exports = {
           }
         ]
       }
-      // {
-      //   test: /\.scss$/,
-      //   exclude: /node_modules/,
-      //   use: [
-      //     "style-loader",
-      //     "css-modules-typescript-loader?&localIndentName=[name]_[local]",
-      //     // "css-loader?&importLoaders=1&localIdentName=[name]__[local]&url=false",
-      //     {
-      //       loader: "css-loader",
-      //       options: {
-      //         modules: true,
-      //         // importLoaders: 1,
-      //         // localIdentName: "[name]__[local]"
-      //       }
-      //     },
-      //     "sass-loader"
-      //   ]
-      // }
     ]
   },
   // devtool: "source-map",

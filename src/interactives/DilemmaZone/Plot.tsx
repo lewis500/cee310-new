@@ -8,7 +8,7 @@ import React, {
 import { params, widths } from "./constants";
 import { makeStyles, withStyles } from "@material-ui/styles";
 import "d3-selection";
-import { select, event } from "d3-selection";
+import { select } from "d3-selection";
 import { axisLeft, axisBottom } from "d3-axis";
 import { AppContext } from "./ducks";
 import { scaleLinear } from "d3-scale";
@@ -163,7 +163,7 @@ export default () => {
   useLayoutEffect(() => {
     select(gXAxis.current).call(xAxis);
     select(gVAxis.current).call(vAxis);
-    const dragger = drag().on("drag", function() {
+    const dragger = drag().on("drag", function(event) {
       dispatchRef.current({
         type: "DRAG",
         payload: {

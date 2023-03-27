@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import * as colors from "@material-ui/core/colors";
 import makeStyles from "@material-ui/styles/makeStyles";
 import {
-  BrowserRouter as Router,
-  Switch,
+  BrowserRouter,
   Route,
   Link,
-  useLocation
+  useLocation,
+  Outlet,
+  Routes,
 } from "react-router-dom";
 import ConstructionZone from "src/interactives/ConstructionZone";
 import DilemmaZone from "src/interactives/DilemmaZone";
@@ -17,7 +18,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import SpaceMeanSpeed from "./interactives/SpaceMeanSpeed";
 import Triangular from "./interactives/Triangular";
-import Tri2 from './interactives/Tri2';
+import Tri2 from "./interactives/Tri2";
 
 // @ts-ignore
 import Negin from "./img/negin-cropped.jpg";
@@ -32,7 +33,7 @@ const map: { [key: string]: string } = {
     "construction-zone": "Construction Zone",
     "space-mean": "Space vs. Time Mean Speed",
     "fundamental-diagram": "Fundamental Diagram",
-    "fundamental-diagrams": "Three Fundamental Diagrams"
+    "fundamental-diagrams": "Three Fundamental Diagrams",
     // horizontal: "Horizontal Curves",
     // "flow-and-density": "Flow and Density",
   },
@@ -43,14 +44,14 @@ const Home = () => (
     <div>
       Welcome! This site hosts interactive visualizations that help students
       understand concepts from <em>CEE 310: Transportation Engineering,</em> an
-      introductory course at University of Illinois at Urbana-Champaign.
-      Each visualization has a short video that you can toggle to explain what's
+      introductory course at University of Illinois at Urbana-Champaign. Each
+      visualization has a short video that you can toggle to explain what's
       going on. If you teach transportation engineering, feel free to use the
       interactives in your class.
     </div>
     <div>
       <ul>
-        {list.map(d => (
+        {list.map((d) => (
           <Link to={d[0]} key={d[0]}>
             <li>{d[1]}</li>
           </Link>
@@ -58,7 +59,13 @@ const Home = () => (
       </ul>
     </div>
     <div>
-          Note: <a href="http://lewislehe.com" target="__blank">Dr. Lewis Lehe</a> is looking for Ph.D. and M.S. students to start Fall 2020 at UIUC. His research focuses on downtown traffic and transportation economics. Programming skills, a good math background and an interest in solving urban traffic are required.
+      These are created by{" "}
+      <a href="https://lewislehe.com" target="__blank">
+        Dr. Lewis Lehe
+      </a>
+      . Check out the{" "}
+      <a href="https://lehelab.com">Urban Traffic and Economics Lab</a> to learn
+      more about his group's research.
     </div>
   </div>
 );
@@ -77,8 +84,8 @@ const About = (() => {
         borderTop: "1px solid " + colors.grey["400"],
         width: "100%",
         margin: "10px 0px",
-        background: "none"
-      }
+        background: "none",
+      },
     },
     imgContainer: {
       alignSelf: "center",
@@ -87,13 +94,13 @@ const About = (() => {
       "& img": {
         width: "200px",
         boxShadow: `1px 1px 2px ${colors.grey[400]}`,
-        marginRight: "20px"
-      }
+        marginRight: "20px",
+      },
     },
     person: {
       display: "flex",
-      marginBottom: "20px"
-    }
+      marginBottom: "20px",
+    },
   });
   return () => {
     const classes = useStyles({});
@@ -117,7 +124,7 @@ const About = (() => {
         </div>
         <div className={classes.person}>
           <div className={classes.imgContainer}>
-            <img src={Lewis}  width="200px" />
+            <img src={Lewis} width="200px" />
           </div>
           <div>
             Since Fall 2018, Lewis Lehe has been assistant professor in the
@@ -137,7 +144,7 @@ const About = (() => {
         </div>
         <div className={classes.person}>
           <div className={classes.imgContainer}>
-            <img src={Negin} width="200px"/>
+            <img src={Negin} width="200px" />
           </div>
           <div>
             In Summer 2019, Negin Alemazkoor earned her PhD in Civil Engineering
@@ -168,7 +175,7 @@ const About = (() => {
         <div
           style={{
             fontSize: "24px",
-            margin: "20px auto"
+            margin: "20px auto",
           }}
         >
           Tools
@@ -189,12 +196,12 @@ const getTitle = () => {
   return map["/"];
 };
 
-const App = () => {
+const Layout = () => {
   const classes = useStyles({});
   return (
     <>
       <div className={classes.title}>
-        <div>{getTitle()}</div>
+        {/* <div>{useLocation().pathname.slice(1)}</div> */}
         <div style={{ flex: "1 1 auto" }} />
         <div style={titleLink}>
           <Link to="/">home</Link>
@@ -207,20 +214,33 @@ const App = () => {
         </div>
       </div>
       <div className={classes.main}>
-        <Switch>
-          <Route path="/about" component={About} />
-          <Route path="/construction-zone" component={ConstructionZone} />
-          <Route path="/dilemma-zone" component={DilemmaZone} />
-          <Route path="/space-mean" component={SpaceMeanSpeed} />
-          <Route path="/horizontal" component={Horizontal} />
-          <Route path="/fundamental-diagram" component={Triangular} />
-          <Route path="/fundamental-diagrams" component={FundamentalDiagrams} />
-          <Route path="/flow-and-density" component={TrafficVariables} />
-          <Route path="/triangular2" component={Tri2} />
-          <Route path="/" component={Home} />
-        </Switch>
+        <Outlet />
       </div>
     </>
+  );
+};
+
+export default () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/construction-zone" element={<ConstructionZone />} />
+          <Route path="/dilemma-zone" element={<DilemmaZone />} />
+          <Route path="/space-mean" element={<SpaceMeanSpeed />} />
+          <Route path="/horizontal" element={<Horizontal />} />
+          <Route path="/fundamental-diagram" element={<Triangular />} />
+          <Route
+            path="/fundamental-diagrams"
+            element={<FundamentalDiagrams />}
+          />
+          <Route path="/flow-and-density" element={<TrafficVariables />} />
+          <Route path="/triangular2" element={<Tri2 />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 
@@ -247,7 +267,7 @@ const SimpleMenu = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {list.map(d => (
+        {list.map((d) => (
           <Link to={d[0]} key={d[0]}>
             <MenuItem onClick={handleClose}> {d[1]}</MenuItem>
           </Link>
@@ -262,12 +282,6 @@ const SimpleMenu = () => {
   );
 };
 
-export default () => (
-  <Router>
-    <App />
-  </Router>
-);
-
 const useStyles = makeStyles({
   "@global": {
     body: {
@@ -275,16 +289,16 @@ const useStyles = makeStyles({
       padding: "0 !important",
       fontFamily: " 'Puritan', sans-serif",
       color: colors.grey["800"],
-      fontSize: "18px"
+      fontSize: "18px",
     },
     ".katex": {
       // fontSize: "1.2em"
-      fontSize: "15px"
+      fontSize: "15px",
     },
     text: {
       fontFamily: "Puritan, san-serif",
-      fontSize: "13px"
-    }
+      fontSize: "13px",
+    },
   },
   title: {
     backgroundColor: colors.lightBlue["A700"],
@@ -301,12 +315,12 @@ const useStyles = makeStyles({
     boxSizing: "border-box",
     "& a": {
       color: "white",
-      textDecoration: "none"
+      textDecoration: "none",
     },
     "& a:hover": {
       color: colors.pink["100"],
-      cursor: "pointer"
-    }
+      cursor: "pointer",
+    },
   },
   main: {
     // lineHeight: "1.5em",
@@ -314,6 +328,6 @@ const useStyles = makeStyles({
     marginTop: "30px",
     display: "flex",
     justifyContent: "center",
-    flexDirection: "column"
-  }
+    flexDirection: "column",
+  },
 });
