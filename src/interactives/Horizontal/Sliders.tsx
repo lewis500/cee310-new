@@ -3,7 +3,7 @@ import { withStyles, Theme } from "@mui/styles";
 import { AppContext, ActionTypes } from "./ducks";
 import Slider, { SliderProps } from "@mui/material/Slider";
 import { Typography as Text, colors } from "@mui/material";
-import TeX from "@matejmazur/react-katex";
+import {InlineMath as TeX} from 'react-katex';
 import * as params from "./constants";
 import "katex/dist/katex.min.css";
 import * as ducks from "./ducks";

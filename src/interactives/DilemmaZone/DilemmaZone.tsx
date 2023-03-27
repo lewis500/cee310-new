@@ -10,7 +10,7 @@ import Plot from "./Plot";
 import { params, widths } from "./constants";
 import { makeStyles } from "@mui/styles";
 import { AppContext, getxssd, getxcl, reducer, initialState } from "./ducks";
-import TeX from "@matejmazur/react-katex";
+import {InlineMath as TeX} from 'react-katex';
 
 import Collapse from "@mui/material/Collapse";
 import FormControlLabel from "@mui/material/FormControlLabel";

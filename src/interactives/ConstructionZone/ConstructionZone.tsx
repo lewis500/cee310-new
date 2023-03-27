@@ -7,7 +7,7 @@ import TimeSpace from "./TimeSpace";
 import * as colors from "@mui/material/colors";
 import Cumulative from "./Cumulative";
 import Slider from "@mui/material/Slider";
-import TeX from "@matejmazur/react-katex";
+import {InlineMath as TeX} from 'react-katex';
 import { makeStyles, withStyles } from "@mui/styles";
 import Collapse from "@mui/material/Collapse";
 import FormControlLabel from "@mui/material/FormControlLabel";

@@ -9,7 +9,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import { withStyles, Theme } from "@mui/styles";
 import Ring from "./Ring";
 import QK from "./QK";
-import TeX from "@matejmazur/react-katex";
+import {InlineMath as TeX} from 'react-katex';
 import "katex/dist/katex.min.css";
 import Slider from "@mui/material/Slider";
 import Collapse from "@mui/material/Collapse";

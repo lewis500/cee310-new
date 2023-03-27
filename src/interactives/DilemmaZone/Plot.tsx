@@ -15,7 +15,7 @@ import { scaleLinear } from "d3-scale";
 import memoizeone from "memoize-one";
 import * as colors from "@mui/material/colors";
 import { drag } from "d3-drag";
-import TeX from "@matejmazur/react-katex";
+import {InlineMath as TeX} from 'react-katex';
 import "katex/dist/katex.min.css";
 import TexLabel from "src/sharedComponents/TexLabel";
 import { useTimer, useInterval } from "src/hooks/useTimerHook";

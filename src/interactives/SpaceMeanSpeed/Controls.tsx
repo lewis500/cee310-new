@@ -4,7 +4,7 @@ import { useTimer } from "src/hooks/useTimerHook";
 import * as params from "./params";
 import withStyles from "@mui/styles/withStyles";
 import { Theme } from "@mui/styles/createMuiTheme";
-import TeX from "@matejmazur/react-katex";
+import {InlineMath as TeX} from 'react-katex';
 import { AppContext, ActionTypes as AT } from "./ducks";
 import Slider from "@mui/material/Slider";
 import * as colors from "@mui/material/colors";

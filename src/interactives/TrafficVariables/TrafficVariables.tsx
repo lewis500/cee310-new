@@ -19,7 +19,7 @@ import { Grid } from "@mui/material";
 import SpaceTime from "./SpaceTime";
 import QK from "./QK";
 import { withStyles, Theme } from "@mui/styles";
-import TeX from "@matejmazur/react-katex";
+import {InlineMath as TeX} from 'react-katex';
 import "katex/dist/katex.min.css";
 import Slider from "@mui/material/Slider";
 

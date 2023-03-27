@@ -4,7 +4,7 @@ import { widths } from "./constants";
 import * as colors from "@mui/material/colors";
 import { scaleLinear } from "d3-scale";
 import { makeStyles, withStyles } from "@mui/styles";
-import TeX from "@matejmazur/react-katex";
+import {InlineMath as TeX} from 'react-katex';
 const EMPTY = {};
 const useStyles = makeStyles({
   road: {

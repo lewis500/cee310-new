@@ -1,4 +1,4 @@
-import TeX from "@matejmazur/react-katex";
+import {InlineMath as TeX} from 'react-katex';
 import "katex/dist/katex.min.css";
 import React, { FC } from "react";
 const style = { fontSize: "12px" };
