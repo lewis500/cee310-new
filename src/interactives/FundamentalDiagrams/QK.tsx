@@ -101,7 +101,6 @@ const useStyles = makeStyles({
     height,
     // height: "100%",
     "& text": {
-      fontFamily: "Puritan, san-serif",
       fontSize: "11px"
     }
   }),

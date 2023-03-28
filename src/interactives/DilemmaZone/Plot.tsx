@@ -36,7 +36,6 @@ const M = {
       width: WIDTH + M.left + M.right,
       height: HEIGHT + M.top + M.bottom,
       "& text": {
-        fontFamily: "Puritan, san-serif",
         fontSize: "13px"
       },
       "& .katex":{

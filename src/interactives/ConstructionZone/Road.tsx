@@ -76,7 +76,6 @@ const useStyles = makeStyles({
   text: {
     textAlign: "center",
     fontSize: "12px",
-    fontFamily: "Puritan, sans-serif"
   },
   cZone: {
     stroke: colors.amber["A400"]

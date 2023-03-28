@@ -1,5 +1,5 @@
 import React, { Dispatch } from "react";
-import mo from "memoize-one";
+// import mo from "memoize-one";
 import * as params from "./constants";
 import range from "lodash.range";
 import { scaleLinear } from "d3-scale";
@@ -18,7 +18,7 @@ type Entry = [number, number];
 
 export const getBlocked = (() => {
   const {
-    blockTimes: [a, b]
+    blockTimes: [a, b],
   } = params;
   return (time: number) => time >= a && time <= b;
 })();
@@ -30,8 +30,8 @@ export const history = (() => {
     S = vf1 / Q,
     numCars = params.duration / Q;
 
-  let cars: number[] = range(0, numCars).map(i => total - i * S);
-  const history = cars.map(x => [[0, x]]);
+  let cars: number[] = range(0, numCars).map((i) => total - i * S);
+  const history = cars.map((x) => [[0, x]]);
   const getX = (arr: number[], i: number, blocked: boolean) => {
     let x = arr[i];
     let nextX = i === 0 ? Infinity : arr[i - 1];
@@ -81,31 +81,31 @@ export const trafficStates = (() => {
         F,
         [params.duration, params.total],
         [params.duration, 0],
-        [0, 0]
-      ]
+        [0, 0],
+      ],
     },
     {
       k: kQueue,
       q: params.qc2,
-      points: [A, B, C, A]
+      points: [A, B, C, A],
     },
     {
       k: params.kc1,
       q: params.qc1,
-      points: [B, C, F, E, B]
+      points: [B, C, F, E, B],
     },
     {
       k: params.kc2,
       q: params.qc2,
-      points: [A, B, E, D]
-    }
+      points: [A, B, E, D],
+    },
   ];
 })();
 
 export const xOfT = history.map((d, i) =>
   scaleLinear()
-    .domain(d.map(v => v[0]))
-    .range(d.map(v => v[1]))
+    .domain(d.map((v) => v[0]))
+    .range(d.map((v) => v[1]))
 );
 
 export const xOfT2 = history.map((d, i) => (int: number, frac: number) => {
@@ -125,7 +125,7 @@ export const initialState = {
   play: true,
   time: 0,
   trafficState: [0, 0] as [number, number],
-  showState: false
+  showState: false,
 };
 
 type ActionTypes =
@@ -160,33 +160,33 @@ export const reducer = (state: State, action: ActionTypes): State => {
     case "SET_TIME":
       return {
         ...state,
-        time: action.payload
+        time: action.payload,
       };
     case "TICK":
       return {
         ...state,
-        time: state.time + action.payload
+        time: state.time + action.payload,
       };
     case "SET_PLAY":
       return {
         ...state,
-        play: action.payload
+        play: action.payload,
       };
     case "HIGHLIGHT":
       return {
         ...state,
         showState: true,
-        trafficState: action.payload
+        trafficState: action.payload,
       };
     case "HIDE":
       return {
         ...state,
-        showState: false
+        showState: false,
       };
     case "RESET":
       return {
         ...state,
-        time: 0
+        time: 0,
       };
     default:
       return state;

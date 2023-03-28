@@ -14,14 +14,12 @@ const useStyles = makeStyles({
   svg: {
     display: "inline-block",
     "& text": {
-      fontFamily: "Puritan, san-serif",
       fontSize: "13px"
     }
   },
   text: {
     textAlign: "center",
     fontSize: "12px",
-    fontFamily: "Puritan, sans-serif"
   },
   xssd: {
     stroke: colors.green.A400,

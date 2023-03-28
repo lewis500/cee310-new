@@ -16,14 +16,14 @@ const M = {
     top: 20,
     bottom: 25,
     left: 25,
-    right: 10
+    right: 10,
   },
   gTranslate = `translate(${M.left},${M.top})`;
 
 const Axes = (() => {
   const style = {
     strokeWidth: "2px",
-    color: colors.grey["800"]
+    color: colors.grey["800"],
   };
   return ({ width, height }: { width: number; height: number }) => (
     <>
@@ -52,36 +52,33 @@ const Axes = (() => {
 })();
 
 const coverMaskStyle = { mask: "url(#coverMask)" };
-const Trajectories = (() => {
-  const style = {
-    fill: "none",
-    stroke: colors.lightBlue["A400"],
-    strokeWidth: "2px",
-    pointerEvents: "none"
-  };
-  return React.memo(
-    ({
-      tScale,
-      xScale
-    }: {
-      tScale: ScaleLinear<number, number>;
-      xScale: ScaleLinear<number, number>;
-    }) => (
+const Trajectories = React.memo(
+  ({
+    tScale,
+    xScale,
+  }: {
+    tScale: ScaleLinear<number, number>;
+    xScale: ScaleLinear<number, number>;
+  }) => {
+    return (
       <g style={coverMaskStyle}>
         {history.map((trajectory, key) =>
           CE("path", {
-            style,
+            fill: "none",
+            stroke: colors.lightBlue["A400"],
+            strokeWidth: "2px",
+            pointerEvents: "none",
             key,
             d: simplify(
               trajectory.map(([t, x]) => ({ x: tScale(t), y: xScale(x) })),
               0.2
-            ).reduce((a, { x, y }) => a + x + "," + y + " ", "M")
+            ).reduce((a, { x, y }) => a + x + "," + y + " ", "M"),
           })
         )}
       </g>
-    )
-  );
-})();
+    );
+  }
+);
 
 const Detectors = (() => {
   const dStyle = {
@@ -89,7 +86,7 @@ const Detectors = (() => {
       stroke: params.dColor,
       fill: "none",
       strokeDasharray: "3,4",
-      strokeLinecap: "round"
+      strokeLinecap: "round",
     },
     aStyle = { ...dStyle, stroke: params.aColor },
     czStyle = { ...dStyle, stroke: colors.green["A700"] },
@@ -99,7 +96,7 @@ const Detectors = (() => {
       xScale,
       tScale,
       width,
-      height
+      height,
     }: {
       xScale: ScaleLinear<number, number>;
       tScale: ScaleLinear<number, number>;
@@ -111,35 +108,35 @@ const Detectors = (() => {
           <TexLabel latexstring="x_a" x={-22} y={-10} />
           {CE("path", {
             ...aStyle,
-            d: `M0,0L${width},0`
+            d: `M0,0L${width},0`,
           })}
         </g>
         <g transform={`translate(0,${xScale(params.dDetector)})`}>
           <TexLabel latexstring="x_d" x={-22} y={-10} />
           {CE("path", {
             ...dStyle,
-            d: `M0,0L${width},0`
+            d: `M0,0L${width},0`,
           })}
         </g>
         <g transform={`translate(0,${xScale(params.blockX)})`}>
           <TexLabel latexstring="x_{cz}" x={-22} y={-10} />
           {CE("path", {
             ...czStyle,
-            d: `M0,0L${width},0`
+            d: `M0,0L${width},0`,
           })}
         </g>
         <g transform={`translate(${tScale(params.blockStart)},${height})`}>
           <TexLabel latexstring="t_0" x={-2} y={0} />
           {CE("path", {
             ...tStyle,
-            d: `M0,0L${0},${-height}`
+            d: `M0,0L${0},${-height}`,
           })}
         </g>
         <g transform={`translate(${tScale(params.blockTimes[1])},${height})`}>
           <TexLabel latexstring="t_1" x={-2} y={0} />
           {CE("path", {
             ...tStyle,
-            d: `M0,0L${0},${-height}`
+            d: `M0,0L${0},${-height}`,
           })}
         </g>
       </g>
@@ -173,14 +170,14 @@ export default ({ width, height }: { width: number; height: number }) => {
   const TrafficStates = useMemo(() => {
     return (
       <g mask="url(#coverMask)">
-        {ducks.trafficStates.map(d => (
+        {ducks.trafficStates.map((d) => (
           <path
             className={classes.trafficState}
             key={d.k}
             onMouseOver={() => {
               dispatch({
                 type: "HIGHLIGHT",
-                payload: [d.k, d.q] 
+                payload: [d.k, d.q],
               });
             }}
             onMouseOut={() => {
@@ -205,8 +202,6 @@ export default ({ width, height }: { width: number; height: number }) => {
         <mask id="myMask">
           <rect height={height} width={width} fill="white" stroke="none" />
         </mask>
-        {/* <mask id="coverMask"> */}
-        {/* </mask> */}
         {TrafficStates}
         <g style={{ mask: "url(#myMask)" }}>
           <Trajectories tScale={tScale} xScale={xScale} />
@@ -222,19 +217,6 @@ export default ({ width, height }: { width: number; height: number }) => {
             <Road height={30} width={height} />
           </g>
         </g>
-        {/* {ducks.interfaces.dots.map((d, i) => (
-          <circle key={i} cx={tScale(d[0])} cy={xScale(d[1])} r="5" />
-        ))} */}
-        {/* {ducks.interfaces.lines.map((d, i) => (
-          <line
-            key={i}
-            x1={tScale(d[0][0])}
-            y1={xScale(d[0][1])}
-            x2={tScale(d[1][0])}
-            y2={xScale(d[1][1])}
-            className={classes.interface}
-          />
-        ))} */}
         <Detectors
           xScale={xScale}
           width={width}
@@ -253,23 +235,22 @@ const useStyles = makeStyles(
       width,
       height,
       "& text": {
-        fontFamily: "Puritan, san-serif",
-        fontSize: "11px"
-      }
+        fontSize: "11px",
+      },
     }),
     trafficState: {
       fill: colors.pink["200"],
       opacity: 0.0,
       "&:hover": {
-        opacity: 0.2
-      }
+        opacity: 0.2,
+      },
     },
     hidden: {
       fill: "white",
-      opacity: 0
+      opacity: 0,
     },
     marker: {
-      fill: colors.lightBlue["A700"]
-    }
+      fill: colors.lightBlue["A700"],
+    },
   })
 );

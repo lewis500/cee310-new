@@ -148,11 +148,6 @@ const SimpleMenu = () => {
             <MenuItem onClick={handleClose}> {d[1]}</MenuItem>
           </Link>
         ))}
-        {/* <Link to={"construction-zone"}>
-          <MenuItem onClick={handleClose}>Construction Zone</MenuItem>
-        </Link> */}
-        {/* <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem> */}
       </Menu>
     </div>
   );
@@ -163,16 +158,14 @@ const useStyles = makeStyles({
     body: {
       margin: "0 !important",
       padding: "0 !important",
-      fontFamily: " 'Puritan', sans-serif",
-      color: colors.grey["800"],
-      fontSize: "18px",
+      fontFamily: " 'Roboto', sans-serif",
+      fontSize: "16px",
     },
     ".katex": {
-      // fontSize: "1.2em"
       fontSize: "15px",
     },
     text: {
-      fontFamily: "Puritan, san-serif",
+      fontFamily: "'Roboto', san-serif",
       fontSize: "13px",
     },
   },

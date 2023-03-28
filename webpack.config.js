@@ -56,33 +56,33 @@ module.exports = {
         // excl
         use: ["style-loader", "css-loader"],
       },
-      {
-        test: /\.woff(2)?$/,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 10000,
-              name: "./font/[hash].[ext]",
-              mimetype: "application/font-woff",
-            },
-          },
-        ],
-      },
-      {
-        test: /\.ttf$/,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 10000,
-              name: "./font/[hash].[ext]",
-              // mimetype: 'application/font-woff'
-              mimetype: "application/x-font-ttf",
-            },
-          },
-        ],
-      },
+      // {
+      //   test: /\.woff(2)?$/,
+      //   use: [
+      //     {
+      //       loader: "url-loader",
+      //       options: {
+      //         limit: 10000,
+      //         name: "./font/[hash].[ext]",
+      //         mimetype: "application/font-woff",
+      //       },
+      //     },
+      //   ],
+      // },
+      // {
+      //   test: /\.ttf$/,
+      //   use: [
+      //     {
+      //       loader: "url-loader",
+      //       options: {
+      //         limit: 10000,
+      //         name: "./font/[hash].[ext]",
+      //         // mimetype: 'application/font-woff'
+      //         mimetype: "application/x-font-ttf",
+      //       },
+      //     },
+      //   ],
+      // },
     ],
   },
   resolve: {

@@ -155,13 +155,11 @@ const useStyles = makeStyles<{}, { width: number; height: number }>({
     height,
     display: "block",
     "& text": {
-      fontFamily: "Puritan, san-serif",
       fontSize: "11px"
     }
   }),
   text: {
     textAlign: "center",
     fontSize: "10px"
-    // fontFamily: "Puritan, sans-serif"
   }
 });

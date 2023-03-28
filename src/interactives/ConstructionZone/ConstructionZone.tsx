@@ -5,9 +5,9 @@ import * as params from "./constants";
 import { AppContext, reducer, initialState } from "./ducks";
 import TimeSpace from "./TimeSpace";
 import * as colors from "@mui/material/colors";
-import Cumulative from "./Cumulative";
+// import Cumulative from "./Cumulative";
 import Slider from "@mui/material/Slider";
-import {InlineMath as TeX} from 'react-katex';
+import { InlineMath as TeX } from "react-katex";
 import { makeStyles, withStyles } from "@mui/styles";
 import Collapse from "@mui/material/Collapse";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -18,8 +18,8 @@ import QK from "./QK";
 const StyleSlider = withStyles(() => ({
   root: {
     color: colors.pink["A400"],
-    marginBottom: "5px"
-  }
+    marginBottom: "5px",
+  },
 }))(Slider);
 
 const EMPTY = {};
@@ -37,7 +37,7 @@ const App = () => {
   const [checked, setChecked] = React.useState(false);
 
   const handleChange = () => {
-    setChecked(prev => !prev);
+    setChecked((prev) => !prev);
   };
 
   return (
@@ -53,10 +53,10 @@ const App = () => {
               width="640"
               height="497"
               src="https://www.loom.com/embed/cc20ab7d23dd48109c4d2d50c5f57ace"
-              frameborder="0"
-              webkitallowfullscreen
-              mozallowfullscreen
-              allowfullscreen
+              frameBorder="0"
+              webkitallowfullscreen="true"
+              mozallowfullscreen="true"
+              allowFullScreen
             ></iframe>
           </div>
         </Paper>
@@ -68,7 +68,7 @@ const App = () => {
             style={{
               display: "flex",
               flexDirection: "row",
-              alignItems: "center"
+              alignItems: "center",
             }}
           >
             <Button
@@ -93,23 +93,34 @@ const App = () => {
               <div className={classes.sliderLabel} style={{ marginTop: 15 }}>
                 time <TeX math="t" />
               </div>
-              <StyleSlider
-                component="div"
-                onChange={(e, payload: number) =>
-                  dispatch({ type: "SET_TIME", payload })
-                }
+              <input
+                style={{ width: "100%" }}
+                type="range"
+                id="cowbell"
+                name="cowbell"
+                onChange={function (e) {
+                  dispatch({ type: "SET_TIME", payload: +e.target.value });
+                }}
+                min="0"
+                max={params.duration}
                 value={state.time}
-                step={(1 / 200) * params.duration}
+                step={params.duration / 400}
+              />
+              {/* <Slider
+                // component="div"
+                onChange={(e, payload: number) => {
+                  dispatch({ type: "SET_TIME", payload:+payload });
+                }}
+                defaultValue={0}
+                value={state.time}
+                step={1 / 400}
                 min={0}
                 max={params.duration}
-              />
+              /> */}
             </div>
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div>
-            <Cumulative width={400} height={350} />
-          </div>
           <div>
             <QK width={400} height={250} />
           </div>
@@ -132,7 +143,7 @@ export default () => {
 const useStyles = makeStyles({
   sliderLabel: {
     fontSize: "14px",
-    marginTop: "5px"
+    marginTop: "5px",
   },
   main: {
     color: colors.grey["800"],
@@ -141,25 +152,25 @@ const useStyles = makeStyles({
     justifyContent: "center",
     flexDirection: "column",
     alignItems: "center",
-    marginTop: "-15px"
+    marginTop: "-15px",
   },
   paper: {
     maxWidth: "500px",
     display: "flex",
     padding: "20px",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
   },
   button: {
     margin: "5px",
-    width: "100px"
+    width: "100px",
   },
   visContainer: {
-    margin: "0 auto"
+    margin: "0 auto",
   },
   sliderContainer: {
     width: "300px",
     padding: "20px",
-    boxSizing: "border-box"
-  }
+    boxSizing: "border-box",
+  },
 });

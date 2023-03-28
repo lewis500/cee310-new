@@ -179,7 +179,6 @@ const useStyles = makeStyles({
     width: "100%",
     height: "100%",
     "& text": {
-      fontFamily: "Puritan, san-serif",
       fontSize: "13px"
     }
   },
@@ -200,7 +199,6 @@ const useStyles = makeStyles({
   text: {
     textAlign: "center",
     fontSize: "12px",
-    fontFamily: "Puritan, sans-serif"
   },
   car: {
     fill: colors.purple["200"],

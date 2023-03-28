@@ -300,7 +300,6 @@ const useStyles = makeStyles({
     width: width + M.left + M.right,
     height: height + M.top + M.bottom,
     "& text": {
-      fontFamily: "Puritan, san-serif",
       fontSize: "11px"
     }
   },
