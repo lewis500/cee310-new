@@ -19,6 +19,7 @@ import MenuItem from "@mui/material/MenuItem";
 import SpaceMeanSpeed from "./interactives/SpaceMeanSpeed";
 import Triangular from "./interactives/Triangular";
 import Tri2 from "./interactives/Tri2";
+import Pressure from "./interactives/Pressure";
 import About from "./About";
 
 const map: { [key: string]: string } = {
@@ -107,6 +108,7 @@ export default () => {
           <Route path="/dilemma-zone" element={<DilemmaZone />} />
           <Route path="/space-mean" element={<SpaceMeanSpeed />} />
           <Route path="/horizontal" element={<Horizontal />} />
+          <Route path="/pressure" element={<Pressure />} />
           <Route path="/fundamental-diagram" element={<Triangular />} />
           <Route
             path="/fundamental-diagrams"
